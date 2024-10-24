@@ -103,3 +103,12 @@ export const getAllUsersInCountry = async (id: string) =>
   await request.get(
     `${PATH}/businesses/all?roleId=0dcfd36b-6f08-4dfa-a31d-55df5ce06be4&countryId=${id}`
   );
+
+export const changePassword = async (data: {
+  // key: string;
+  password: string;
+  currentPassword: string;
+}) =>
+  await request.post(`${PATH}update-password`, data, {
+    headers: { "Content-Type": "application/json" },
+  });

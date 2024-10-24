@@ -23,7 +23,7 @@ export const menuItems = [
   },
   {
     title: "Settings",
-    path: "settings",
+    path: "",
     icon: <FaCog />,
     submenu: [
       {

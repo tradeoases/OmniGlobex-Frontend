@@ -26,9 +26,9 @@ import Ratings from "./pages/user/buyer-profile/Ratings";
 import BuyerAccount from "./pages/user/buyer-profile/BuyerAccount";
 import MyFavorites from "./pages/user/buyer-profile/MyFavorite";
 import SourcingPreferences from "./pages/user/buyer-profile/SourcingPreferences";
-import SecuritySettings from "./pages/user/buyer-profile/SecuritySettings";
-import BuyerSettings from "./pages/user/buyer-profile/BuyerSettings";
-import ChangePassword from "./pages/user/buyer-profile/ChangePassword";
+import SecuritySettings from "./pages/BuyersAuthentication/SecuritySettings";
+// import BuyerSettings from "./pages/user/buyer-profile/BuyerSettings";
+import ChangePassword from "./pages/supplier-authentication/change-password";
 import Notifications from "./pages/user/buyer-profile/Notifications";
 import QuickMessage from "./pages/user/buyer-profile/QuickMessage";
 import BuyersProfile from "./pages/user/buyer-profile/BuyersProfile";
@@ -72,6 +72,7 @@ import ManageUsers from "./pages/user/supplier-profile/ManageUsers";
 import RFQForm from "./pages/user/buyer-profile/RfqsForm";
 import SinglePreviewProduct from "./pages/user/supplier-profile/SingleProductPreview";
 import Users from "./pages/user/supplier-profile/Users";
+import ChangeBuyerPassword from "./pages/BuyersAuthentication/ChangeBuyerPassword";
 
 const RoutesConfig = () => {
   const [, setUserData] = useRecoilState<IUser | null>(userStore);
@@ -132,9 +133,11 @@ const RoutesConfig = () => {
 
         <Route path="orders" element={<OrderTracking />} />
         <Route path="ratings" element={<Ratings />} />
-        <Route path="settings" element={<BuyerSettings />}>
+
+        <Route path="settings" >
+          <Route path="change-password" element={<ChangeBuyerPassword />} />
           <Route path="security" element={<SecuritySettings />} />
-          <Route path="change-password" element={<ChangePassword />} />
+
           <Route path="notifications" element={<Notifications />} />
           <Route path="quick-messages" element={<QuickMessage />} />
         </Route>

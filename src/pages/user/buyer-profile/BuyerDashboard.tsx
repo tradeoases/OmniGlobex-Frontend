@@ -15,7 +15,7 @@ const BuyerDashboard = () => {
   };
 
   return (
-    <div className="flex  flex-col h-screen">
+    <div className="flex  flex-col h-screen ">
       <BuyersNavBar />
 
       <div className="relative flex flex-1 overflow-hidden">
