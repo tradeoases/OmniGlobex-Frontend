@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import SideBar from "./Sidebar";
 import BuyersNavBar from "./BuyersNavBar";
-import BuyersFooter from "./BuyersFooter";
 import { useState } from "react";
 import ProtectedRoute from "@/components/ProtectedRoutes";
 import { useRecoilState } from "recoil";
