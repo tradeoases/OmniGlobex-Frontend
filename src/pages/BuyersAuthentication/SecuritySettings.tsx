@@ -85,7 +85,7 @@ const TwoFactorAuthForm = () => {
       {!isCodeSent && (
         <button
           onClick={sendVerificationCode}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md"
+          className=" bg-main text-white py-2 px-4 rounded-full"
         >
           Send Verification Code
         </button>
@@ -112,7 +112,7 @@ const TwoFactorAuthForm = () => {
           {/* Verify Code Button */}
           <button
             onClick={verifyCode}
-            className="w-full mt-4 bg-green-600 text-white py-2 px-4 rounded-md"
+            className="w-full mt-4 bg-main text-white py-2 px-4 rounded-md"
           >
             Verify Code
           </button>

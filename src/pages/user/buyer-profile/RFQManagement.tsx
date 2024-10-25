@@ -74,7 +74,7 @@ const RFQManagement = () => {
             <input
               type="text"
               placeholder="Search request"
-              className="w-full text-lg font-semibold border rounded-md py-1 px-4"
+              className="w-full text-lg font-normal border rounded-md py-1 px-4 focus:outline-none "
             ></input>
           </div>
         </div>
