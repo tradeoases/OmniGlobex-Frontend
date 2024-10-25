@@ -107,9 +107,9 @@ const ChangeBuyerPassword = () => {
                         onClick={toggleOldPasswordVisibility}
                       >
                         {showOldPassword ? (
-                          <EyeOffIcon className="h-4 w-4 text-gray-500" />
-                        ) : (
                           <EyeIcon className="h-4 w-4 text-gray-500" />
+                        ) : (
+                          <EyeOffIcon className="h-4 w-4 text-gray-500" />
                         )}
                       </button>
                     </div>
@@ -142,9 +142,9 @@ const ChangeBuyerPassword = () => {
                         onClick={toggleNewPasswordVisibility}
                       >
                         {showNewPassword ? (
-                          <EyeOffIcon className="h-4 w-4 text-gray-500" />
-                        ) : (
                           <EyeIcon className="h-4 w-4 text-gray-500" />
+                        ) : (
+                          <EyeOffIcon className="h-4 w-4 text-gray-500" />
                         )}
                       </button>
                     </div>
@@ -177,9 +177,9 @@ const ChangeBuyerPassword = () => {
                         onClick={toggleConfirmPasswordVisibility}
                       >
                         {showConfirmPassword ? (
-                          <EyeOffIcon className="h-4 w-4 text-gray-500" />
-                        ) : (
                           <EyeIcon className="h-4 w-4 text-gray-500" />
+                        ) : (
+                          <EyeOffIcon className="h-4 w-4 text-gray-500" />
                         )}
                       </button>
                     </div>

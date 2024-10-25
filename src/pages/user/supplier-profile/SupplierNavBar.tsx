@@ -17,7 +17,7 @@ const SupplierNavBar = () => {
 
             <p className="text-2xl font-semibold pl-6">Supplier Center</p>
             <Link
-              className="border  px-2 py-2 ml-6 rounded-lg cursor-pointerbg-white text-main  border-main hover:bg-main hover:text-white transition duration-300 shadow-md hover:shadow-lg "
+              className="border  px-2 py-1 ml-6 rounded-full cursor-pointerbg-white text-main  border-main hover:bg-main hover:text-white transition duration-300 shadow-md hover:shadow-lg "
               to="/buyer-dashboard"
             >
               Switch to Buyer

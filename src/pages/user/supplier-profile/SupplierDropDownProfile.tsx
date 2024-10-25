@@ -1,129 +1,121 @@
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { FaUserCircle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
-import "./supplierProfile.css";
+import { useEffect, useRef, useState } from "react";
 
 export function SupplierDropDownProfile() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [openSubmenu, setOpenSubmenu] = useState("");
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
   const handleLogout = () => {
     localStorage.removeItem("profile");
     localStorage.removeItem("token");
+    setIsOpen(false);
     navigate("/");
     navigate(0);
   };
+
+  const handleItemClick = () => {
+    setIsOpen(false);
+    setOpenSubmenu("");
+  };
+
+  const toggleSubmenu = (submenu: string) => {
+    setOpenSubmenu(openSubmenu === submenu ? "" : submenu);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+        setOpenSubmenu("");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const DropdownItem = ({
+    to,
+    children,
+  }: {
+    to: string;
+    children: React.ReactNode;
+  }) => (
+    <Link
+      to={to}
+      onClick={handleItemClick}
+      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+    >
+      {children}
+    </Link>
+  );
+
   return (
-    // <DropdownMenu>
-    //   <DropdownMenuTrigger asChild>
-    //     <div className=" text-2xl cursor-pointer">
-    //       <FaUserCircle />
-    //     </div>
-    //   </DropdownMenuTrigger>
-    //   <DropdownMenuContent className="w-56">
-    //     <DropdownMenuLabel>My Account</DropdownMenuLabel>
-    //     <DropdownMenuSeparator />
-    //     <DropdownMenuGroup>
-    //       <Link to="manage-users">
-    //         <DropdownMenuItem>
-    //           <User className="mr-2 h-4 w-4" />
-    //           <span>Users</span>
-    //         </DropdownMenuItem>
-    //       </Link>
-    //       <Link to="supplier-profile">
-    //         <DropdownMenuItem>
-    //           <CreditCard className="mr-2 h-4 w-4" />
-    //           <span>My Profile</span>
-    //         </DropdownMenuItem>
-    //       </Link>
-    //       <DropdownMenuLabel>Settings</DropdownMenuLabel>
-    //       <DropdownMenuSeparator />
-    //       <Link to="security-settings">
-    //         <DropdownMenuItem>
-    //           <Settings className="mr-2 h-4 w-4" />
-    //           <span>Security Settings</span>
-    //         </DropdownMenuItem>
-    //       </Link>
-    //       <Link to="change-password">
-    //         <DropdownMenuItem>
-    //           <Keyboard className="mr-2 h-4 w-4" />
-    //           <span>Change Password</span>
-    //         </DropdownMenuItem>
-    //       </Link>
-    //     </DropdownMenuGroup>
-    //   </DropdownMenuContent>
-    // </DropdownMenu>
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger asChild>
-        <button className="IconButton" aria-label="Customise options">
-          <FaUserCircle />
-        </button>
-      </DropdownMenu.Trigger>
+    <div ref={dropdownRef} className="relative inline-block text-left">
+      <button
+        onClick={toggleDropdown}
+        className="flex items-center px-4 py-2 rounded-md focus:outline-none"
+      >
+        <FaUserCircle size={25} />
+      </button>
 
-      <DropdownMenu.Portal>
-        <DropdownMenu.Content className="DropdownMenuContent" sideOffset={5}>
-          <DropdownMenu.Sub>
-            <DropdownMenu.SubTrigger className="DropdownMenuSubTrigger">
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-52 text-sm bg-white border border-gray-200 rounded-md shadow-lg z-10">
+          <div className="py-1">
+            <button
+              onClick={() => toggleSubmenu("account")}
+              className="flex items-center justify-between w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none"
+            >
               My Account
-              <div className="RightSlot">
-                <ChevronRightIcon />
+              <ChevronRightIcon />
+            </button>
+            {openSubmenu === "account" && (
+              <div className="mt-1 ml-4 bg-white border border-gray-200 rounded-md shadow-lg">
+                <DropdownItem to="users">Users</DropdownItem>
+                <DropdownItem to="supplier-profile">My Profile</DropdownItem>
               </div>
-            </DropdownMenu.SubTrigger>
+            )}
 
-            {/* Updated SubContent positioning */}
-            <DropdownMenu.Portal>
-              <DropdownMenu.SubContent className="DropdownMenuSubContent">
-                <Link to="users">
-                  <DropdownMenu.Item className="DropdownMenuItem">
-                    Users
-                  </DropdownMenu.Item>
-                </Link>
-                <Link to="supplier-profile">
-                  <DropdownMenu.Item className="DropdownMenuItem">
-                    My Profile
-                  </DropdownMenu.Item>
-                </Link>
-              </DropdownMenu.SubContent>
-            </DropdownMenu.Portal>
-          </DropdownMenu.Sub>
-          <DropdownMenu.Sub>
-            <DropdownMenu.SubTrigger className="DropdownMenuSubTrigger">
+            <button
+              onClick={() => toggleSubmenu("settings")}
+              className="flex items-center justify-between w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none"
+            >
               Settings
-              <div className="RightSlot">
-                <ChevronRightIcon />
+              <ChevronRightIcon />
+            </button>
+            {openSubmenu === "settings" && (
+              <div className="mt-1 ml-4 bg-white border border-gray-200 rounded-md shadow-lg">
+                <DropdownItem to="security-settings">
+                  Security Settings
+                </DropdownItem>
+                <DropdownItem to="change-password">
+                  Change Password
+                </DropdownItem>
               </div>
-            </DropdownMenu.SubTrigger>
+            )}
 
-            {/* Updated SubContent positioning */}
-            <DropdownMenu.Portal>
-              <DropdownMenu.SubContent className="DropdownMenuSubContent">
-                <Link to="security-settings">
-                  <DropdownMenu.Item className="DropdownMenuItem">
-                    Security Settings
-                  </DropdownMenu.Item>
-                </Link>
-                <Link to="change-password">
-                  <DropdownMenu.Item className="DropdownMenuItem">
-                    Change Password
-                  </DropdownMenu.Item>
-                </Link>
-              </DropdownMenu.SubContent>
-            </DropdownMenu.Portal>
-          </DropdownMenu.Sub>
-          <Link to="/supplier-dashboard/messages">
-            <DropdownMenu.Item className="DropdownMenuItem">
+            <DropdownItem to="/supplier-dashboard/messages">
               Messages
-            </DropdownMenu.Item>
-          </Link>
-          <DropdownMenu.Item
-            className="DropdownMenuItem"
-            onClick={handleLogout}
-          >
-            Logout
-          </DropdownMenu.Item>
+            </DropdownItem>
 
-          <DropdownMenu.Arrow className="DropdownMenuArrow" />
-        </DropdownMenu.Content>
-      </DropdownMenu.Portal>
-    </DropdownMenu.Root>
+            <button
+              onClick={handleLogout}
+              className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

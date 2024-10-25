@@ -1,84 +1,112 @@
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuGroup,
-//   DropdownMenuItem,
-//   DropdownMenuLabel,
-//   DropdownMenuSeparator,
-//   DropdownMenuSub,
-//   DropdownMenuSubContent,
-//   DropdownMenuSubTrigger,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu";
-import { FaUserCircle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { ChevronRightIcon } from "@radix-ui/react-icons";
-import "./profile.css";
+import { useState, useEffect, useRef } from "react";
+import { FaUserCircle } from "react-icons/fa";
+import { ChevronRightIcon } from "lucide-react";
 
 export function BuyerDropDownProfile() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  const toggleDropdown = () => setIsOpen(!isOpen);
+  const toggleAccountDropdown = () => setIsAccountOpen(!isAccountOpen);
+
   const handleLogout = () => {
     localStorage.removeItem("profile");
     localStorage.removeItem("token");
+    setIsOpen(false);
     navigate("/");
     navigate(0);
   };
 
+  const handleItemClick = () => {
+    setIsOpen(false);
+    setIsAccountOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+        setIsAccountOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger asChild>
-        <button className="IconButton" aria-label="Customise options">
-          <FaUserCircle />
-        </button>
-      </DropdownMenu.Trigger>
+    <div ref={dropdownRef} className="relative inline-block text-left">
+      <button
+        onClick={toggleDropdown}
+        className="flex items-center px-4 py-2 rounded-md focus:outline-none"
+      >
+        <FaUserCircle size={25} />
+      </button>
 
-      <DropdownMenu.Portal>
-        <DropdownMenu.Content className="DropdownMenuContent" sideOffset={5}>
-          <DropdownMenu.Sub>
-            <DropdownMenu.SubTrigger className="DropdownMenuSubTrigger">
-              My Account
-              <div className="RightSlot">
-                <ChevronRightIcon />
-              </div>
-            </DropdownMenu.SubTrigger>
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-52 text-sm bg-white border border-gray-200 rounded-md shadow-lg z-10">
+          <div className="py-1">
+            <div className="relative">
+              <button
+                onClick={toggleAccountDropdown}
+                className="flex items-center text-sm gap-14 px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none"
+              >
+                My Account
+                <ChevronRightIcon size={20} />
+              </button>
 
-            {/* Updated SubContent positioning */}
-            <DropdownMenu.Portal>
-              <DropdownMenu.SubContent className="DropdownMenuSubContent">
-                <Link to="/buyer-dashboard/myAccount/favorites">
-                  <DropdownMenu.Item className="DropdownMenuItem">
+              {isAccountOpen && (
+                <div className="mt-2 bg-white border border-gray-200 rounded-md shadow-lg">
+                  <Link
+                    to="/buyer-dashboard/myAccount/preferences"
+                    onClick={handleItemClick}
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
                     My Favorites
-                  </DropdownMenu.Item>
-                </Link>
-                <Link to="/buyer-dashboard/myAccount/preferences">
-                  <DropdownMenu.Item className="DropdownMenuItem">
+                  </Link>
+                  <Link
+                    to="/buyer-dashboard/myAccount/preferences"
+                    onClick={handleItemClick}
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
                     Sourcing Preferences
-                  </DropdownMenu.Item>
-                </Link>
-                <Link to="/buyer-dashboard/myAccount/profile">
-                  <DropdownMenu.Item className="DropdownMenuItem">
+                  </Link>
+                  <Link
+                    to="/buyer-dashboard/myAccount/profile"
+                    onClick={handleItemClick}
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
                     User Profile
-                  </DropdownMenu.Item>
-                </Link>
-              </DropdownMenu.SubContent>
-            </DropdownMenu.Portal>
-          </DropdownMenu.Sub>
-          <Link to="/buyer-dashboard/messages">
-            <DropdownMenu.Item className="DropdownMenuItem">
-              Messages
-            </DropdownMenu.Item>
-          </Link>
-          <DropdownMenu.Item
-            className="DropdownMenuItem"
-            onClick={handleLogout}
-          >
-            Logout
-          </DropdownMenu.Item>
+                  </Link>
+                </div>
+              )}
+            </div>
 
-          <DropdownMenu.Arrow className="DropdownMenuArrow" />
-        </DropdownMenu.Content>
-      </DropdownMenu.Portal>
-    </DropdownMenu.Root>
+            <Link
+              to="/buyer-dashboard/messages"
+              onClick={handleItemClick}
+              className="block px-4 py-2 text-gray-700 text-sm hover:bg-gray-100"
+            >
+              Messages
+            </Link>
+
+            <span
+              onClick={handleLogout}
+              className="block px-4 py-2 text-gray-700 text-sm cursor-pointer hover:bg-gray-100"
+            >
+              Logout
+            </span>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
