@@ -45,13 +45,7 @@ const ChangeBuyerPassword = () => {
   });
 
   // Use mutation to change password
-  const {
-    mutate: updatePassword,
-    isPending,
-    isError,
-    error,
-    isSuccess,
-  } = useMutation({
+  const { mutate: updatePassword, isPending, isError, error, isSuccess } = useMutation({
     mutationKey: ["updatePassword"],
     mutationFn: changePassword,
     onSuccess: (data) => {
@@ -78,12 +72,12 @@ const ChangeBuyerPassword = () => {
   // Toggle functions
   const toggleOldPasswordVisibility = () => setShowOldPassword((prev) => !prev);
   const toggleNewPasswordVisibility = () => setShowNewPassword((prev) => !prev);
-  const toggleConfirmPasswordVisibility = () =>
-    setShowConfirmPassword((prev) => !prev);
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
 
   const handleCancel = () => {
     form.reset(); // Reset form fields when cancel is clicked
   };
+
 
   return (
     <div className="col-span-3 no-scrollbars bg-white p-4 md:p-8 relative w-full overflow-x-auto">
@@ -114,9 +108,9 @@ const ChangeBuyerPassword = () => {
                         onClick={toggleOldPasswordVisibility}
                       >
                         {showOldPassword ? (
-                          <EyeOffIcon className="h-4 w-4 text-gray-500" />
-                        ) : (
                           <EyeIcon className="h-4 w-4 text-gray-500" />
+                        ) : (
+                          <EyeOffIcon className="h-4 w-4 text-gray-500" />
                         )}
                       </button>
                     </div>
@@ -149,9 +143,9 @@ const ChangeBuyerPassword = () => {
                         onClick={toggleNewPasswordVisibility}
                       >
                         {showNewPassword ? (
-                          <EyeOffIcon className="h-4 w-4 text-gray-500" />
-                        ) : (
                           <EyeIcon className="h-4 w-4 text-gray-500" />
+                        ) : (
+                          <EyeOffIcon className="h-4 w-4 text-gray-500" />
                         )}
                       </button>
                     </div>
@@ -184,9 +178,9 @@ const ChangeBuyerPassword = () => {
                         onClick={toggleConfirmPasswordVisibility}
                       >
                         {showConfirmPassword ? (
-                          <EyeOffIcon className="h-4 w-4 text-gray-500" />
-                        ) : (
                           <EyeIcon className="h-4 w-4 text-gray-500" />
+                        ) : (
+                          <EyeOffIcon className="h-4 w-4 text-gray-500" />
                         )}
                       </button>
                     </div>

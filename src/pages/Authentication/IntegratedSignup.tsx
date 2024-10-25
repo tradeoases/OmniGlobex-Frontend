@@ -37,6 +37,7 @@ import { useRecoilState } from "recoil";
 import { EmailStore } from "@/store/user-store";
 import { useState } from "react";
 import RegisterDashboard from "./RegisterDashboard";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 const IntegratedSignup = () => {
   const [continent, setContinent] = useState<
@@ -48,7 +49,7 @@ const IntegratedSignup = () => {
     | "AUSTRALIA"
   >("EUROPE");
 
-  const location = useLocation()
+  const location = useLocation();
   const {
     data: countries,
     isError: isCountryError,
@@ -70,7 +71,6 @@ const IntegratedSignup = () => {
   const redirectPath = searchParams.get("redirect") || "/";
   const previousPath = searchParams.get("previous") || "/";
 
-
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -85,6 +85,8 @@ const IntegratedSignup = () => {
     },
   });
 
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const toggleOldPasswordVisibility = () => setShowOldPassword((prev) => !prev);
   const [, setEmail] = useRecoilState(EmailStore);
   const navigate = useNavigate();
   const {
@@ -134,7 +136,11 @@ const IntegratedSignup = () => {
       setTimeout(() => {
         form.reset();
       }, 2000);
-      navigate(`/verify-email?${redirectPath ?`redirect=${redirectPath}&`:''}${previousPath? `previous=${previousPath}`:''}`);
+      navigate(
+        `/verify-email?${redirectPath ? `redirect=${redirectPath}&` : ""}${
+          previousPath ? `previous=${previousPath}` : ""
+        }`
+      );
     },
     onError: (e: any) => {
       console.log(e);
@@ -280,13 +286,25 @@ const IntegratedSignup = () => {
                       <FormItem>
                         <FormLabel>Password *</FormLabel>
                         <FormControl>
-                          <Input
-                            type="password"
-                            className="focus:outline-none"
-                            id="password"
-                            placeholder="Enter password"
-                            {...field}
-                          />
+                          <div className="relative">
+                            <Input
+                              type={showOldPassword ? "text" : "password"}
+                              className="focus-visible:outline-none focus:outline-none w-full pr-10"
+                              placeholder="Password"
+                              {...field}
+                            />
+                            <button
+                              type="button"
+                              className="absolute right-3 top-3"
+                              onClick={toggleOldPasswordVisibility}
+                            >
+                              {showOldPassword ? (
+                                <EyeIcon className="h-4 w-4 text-gray-500" />
+                              ) : (
+                                <EyeOffIcon className="h-4 w-4 text-gray-500" />
+                              )}
+                            </button>
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -302,13 +320,25 @@ const IntegratedSignup = () => {
                       <FormItem>
                         <FormLabel>Confirm password *</FormLabel>
                         <FormControl>
-                          <Input
-                            type="password"
-                            className="focus:outline-none"
-                            id="confirmPassword"
-                            placeholder="Confirm password"
-                            {...field}
-                          />
+                        <div className="relative">
+                            <Input
+                              type={showOldPassword ? "text" : "password"}
+                              className="focus-visible:outline-none focus:outline-none w-full pr-10"
+                              placeholder="Confirm password"
+                              {...field}
+                            />
+                            <button
+                              type="button"
+                              className="absolute right-3 top-3"
+                              onClick={toggleOldPasswordVisibility}
+                            >
+                              {showOldPassword ? (
+                                <EyeIcon className="h-4 w-4 text-gray-500" />
+                              ) : (
+                                <EyeOffIcon className="h-4 w-4 text-gray-500" />
+                              )}
+                            </button>
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -380,7 +410,7 @@ const IntegratedSignup = () => {
                               onValueChange={field.onChange}
                               defaultValue={field.value}
                             >
-                              <SelectTrigger className="w-full">
+                              <SelectTrigger className="w-full focus:outline-none">
                                 <SelectValue placeholder="Select a Country" />
                               </SelectTrigger>
                               <SelectContent>

@@ -173,7 +173,7 @@ const RFQForm: React.FC = () => {
               placeholder="Enter a specific product name"
               value={formData.productName}
               onChange={handleInputChange}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
             />
             {formErrors.productName && (
               <p className="text-red-500 text-sm">{formErrors.productName}</p>
@@ -191,7 +191,7 @@ const RFQForm: React.FC = () => {
               value={formData.aboutProduct}
               placeholder="Please indicate your detailed requirements to ensure fast and efficient response from suppliers.You may include: Size/Dimension,Packaging requirements and/ or others."
               onChange={handleInputChange}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
               rows={4}
             />
             {formErrors.aboutProduct && (
@@ -240,7 +240,7 @@ const RFQForm: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="grid w-full max-w-sm items-center gap-1.5">
+            <div className="grid w-full max-w-sm items-center gap-1.5 focus:outline-none">
               <Label htmlFor="eoq">Estimated Order Quantity</Label>
               <Input
                 type="text"
@@ -273,6 +273,7 @@ const RFQForm: React.FC = () => {
                 value={formData.price}
                 onChange={handleInputChange}
                 placeholder="e.g. 60"
+                className=" mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
               />
               {formErrors.price && (
                 <p className="text-red-500 text-sm">{formErrors.price}</p>
@@ -281,10 +282,7 @@ const RFQForm: React.FC = () => {
           </div>
           <div className="flex items-center space-x-2">
             <Checkbox id="remember" />
-            <label
-              htmlFor="remember"
-              className="text-sm text-gray-600"
-            >
+            <label htmlFor="remember" className="text-sm text-gray-600">
               I'd like to send this RFQ to more suppliers, if I have not
               received 20 quotations within the next 48 hours.
             </label>
@@ -293,7 +291,7 @@ const RFQForm: React.FC = () => {
             <button
               onClick={() => alert("Under implementation")}
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+              className=" bg-main text-white py-2 px-4 rounded-full hover:bg-yellow-500"
             >
               Submit RFQ
             </button>

@@ -341,6 +341,7 @@ const SideBar: React.FC<ISideBarProps> = ({ onOpen, open }) => {
           <Label className="w-full">
             Max{" "}
             <Input
+              className="focus:outline-none"
               placeholder="max"
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}

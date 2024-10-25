@@ -82,7 +82,7 @@ const RfqHomeSection: React.FC = () => {
 
           <button
             onClick={() => alert("Under implementation")}
-            className="py-2 px-6 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium mb-4"
+            className="py-2 px-6 text-small bg-main hover:bg-yellow-500 text-white rounded-full font-medium mb-4"
           >
             View More
           </button>
@@ -108,7 +108,7 @@ const RfqHomeSection: React.FC = () => {
               <input
                 type="text"
                 placeholder="Please enter a specific product name"
-                className="w-full py-3 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full py-3 px-4 text-gray-500 border border-gray-300 rounded-md focus:outline-none"
               />
             </div>
 
@@ -116,7 +116,7 @@ const RfqHomeSection: React.FC = () => {
               <input
                 type="text"
                 placeholder="Quantity"
-                className="w-full py-3 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full py-3 px-4 text-gray-500 border border-gray-300 rounded-md focus:outline-none"
               />
             </div>
 
@@ -124,14 +124,14 @@ const RfqHomeSection: React.FC = () => {
               <input
                 type="text"
                 placeholder="Units"
-                className="w-full py-3 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full py-3 px-4 border text-gray-500 border-gray-300 rounded-md focus:outline-none"
               />
             </div>
 
             <div className="text-center">
               <button
                 onClick={() => alert("under implementation")}
-                className="inline-block py-3 px-8 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium"
+                className="inline-block text-sm py-3 px-4 bg-main hover:bg-yellow-500 text-white rounded-full font-normal"
                 rel="nofollow"
               >
                 Request for Quotations
