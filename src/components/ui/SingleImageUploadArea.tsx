@@ -13,8 +13,9 @@ const toBase64 = (file: File): Promise<string> => {
 interface SingleImageUploadProps {
   image: string | null;
   setImage: (image: string | null) => void;
-  fieldName?: string;
+  fieldName: string;
   image_url?: string;
+  className?: string; // Add this line
 }
 
 const SingleImageUpload: React.FC<SingleImageUploadProps> = ({
@@ -22,6 +23,7 @@ const SingleImageUpload: React.FC<SingleImageUploadProps> = ({
   setImage,
   fieldName,
   image_url,
+  className,
 }: SingleImageUploadProps) => {
   const [dragging, setDragging] = useState(false);
   const [imageData, setImageData] = useState<{
@@ -77,7 +79,7 @@ const SingleImageUpload: React.FC<SingleImageUploadProps> = ({
   };
 
   return (
-    <div className="border-blue-400">
+    <div className={`border-blue-400 ${className}`}>
       <h2 className="mb-4 text-lg font-semibold">
         {fieldName ? fieldName : "Upload an Image"}
       </h2>
