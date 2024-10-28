@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { menuItems } from "./constants";
-import { FaSignOutAlt, FaChevronDown } from "react-icons/fa";
+import {  FaChevronDown } from "react-icons/fa";
 import { SelectShowroom } from "@/components/select-show-room";
 
 interface SideBarProps {
   isOpen: boolean;
   toggleSidebar: () => void;
 }
+
+// ... existing code ...
 
 const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
@@ -40,6 +42,10 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar }) => {
   };
 
   const handleMenuItemClick = (path: string) => {
+    if (path === "logout") {
+      handleLogout();
+      return;
+    }
     navigate(path);
     toggleSidebar();
   };
@@ -74,19 +80,19 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar }) => {
           bg-gray-800
           shadow-xl lg:shadow-none
           pt-16 lg:pt-4
-          overflow-hidden
+          flex flex-col
         `}
       >
-        <div className="flex-1 overflow-y-auto px-4 py-2 h-full">
-          <div className="w-full px-4 py-4">
-            <div>
-              <SelectShowroom />
-            </div>
-          </div>
+        {/* ShowRoom Selector */}
+        <div className="px-4 py-2">
+          <SelectShowroom />
+        </div>
 
-          <nav className="space-y-1">
+        {/* Scrollable Navigation */}
+        <div className="flex-1 overflow-y-auto px-4 py-2">
+          <nav className="space-y-1 mb-16">
             <ul className="space-y-1">
-              {menuItems.map(({ title, path, icon, submenu }) => (
+              {menuItems.map(({ title, path, icon, submenu, className }) => (
                 <li key={title}>
                   <div
                     className={`
@@ -101,6 +107,7 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar }) => {
                           ? "bg-gray-700 text-white"
                           : ""
                       }
+                      ${className || ""}
                     `}
                     onClick={() =>
                       submenu
@@ -133,6 +140,12 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar }) => {
                             hover:bg-gray-700
                             cursor-pointer
                             transition-colors duration-200
+                            flex items-center gap-2
+                            ${
+                              subItem.path === "logout"
+                                ? "text-gray-800 hover:text-red-300 hover:bg-gray-700/50"
+                                : "text-gray-400 hover:text-white hover:bg-gray-700"
+                            }
                             ${
                               location.pathname === subItem.path
                                 ? "bg-gray-700 text-white"
@@ -140,7 +153,8 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar }) => {
                             }
                           `}
                         >
-                          {subItem.title}
+                          {/* Remove icon since it doesn't exist in the type */}
+                          <span>{subItem.title}</span>
                         </li>
                       ))}
                     </ul>
@@ -149,22 +163,6 @@ const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar }) => {
               ))}
             </ul>
           </nav>
-
-          <div
-            onClick={handleLogout}
-            className="
-              absolute bottom-8 left-4 right-4
-              flex items-center space-x-3
-              p-3 rounded-lg
-              text-gray-300 hover:text-white
-              hover:bg-gray-700
-              cursor-pointer
-              transition-colors duration-200
-            "
-          >
-            <FaSignOutAlt className="text-xl" />
-            <span className="font-medium">Log out</span>
-          </div>
         </div>
       </div>
     </>
