@@ -1,4 +1,11 @@
-import { FaUsers, FaEnvelope, FaStar, FaBookOpen, FaCog } from "react-icons/fa";
+import {
+  FaUsers,
+  FaEnvelope,
+  FaStar,
+  FaBookOpen,
+  FaSignOutAlt,
+} from "react-icons/fa";
+import { FaGear } from "react-icons/fa6";
 
 export const menuItems = [
   {
@@ -23,17 +30,24 @@ export const menuItems = [
   },
   {
     title: "Settings",
+    icon: <FaGear />,
     path: "",
-    icon: <FaCog />,
     submenu: [
       {
         title: "Security Settings",
-        path: "settings/security",
+        path: "/buyer-dashboard/settings/security",
       },
       {
         title: "Change Password",
-        path: "settings/change-password",
+        path: "/buyer-dashboard/settings/change-password/",
       },
     ],
+  },
+  {
+    title: "Logout",
+    path: "logout",
+    icon: <FaSignOutAlt />,
+    className:
+      "text-red-400 hover:text-red-300 mt-4 border-t border-gray-700 pt-4",
   },
 ];
