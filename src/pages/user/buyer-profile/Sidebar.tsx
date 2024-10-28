@@ -4,13 +4,12 @@ import { menuItems } from "./constants";
 import { FaBars, FaSignOutAlt, FaTimes, FaChevronDown } from "react-icons/fa";
 import { SelectShowroom } from "@/components/select-show-room";
 
-const SideBar = ({
-  isOpen,
-  toggleSidebar,
-}: {
+interface SideBarProps {
   isOpen: boolean;
   toggleSidebar: () => void;
-}) => {
+}
+
+const SideBar: React.FC<SideBarProps> = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
@@ -19,9 +18,10 @@ const SideBar = ({
   const handleClickOutside = (event: MouseEvent) => {
     if (
       sidebarRef.current &&
-      !sidebarRef.current.contains(event.target as Node)
+      !sidebarRef.current.contains(event.target as Node) &&
+      isOpen
     ) {
-      if (isOpen) toggleSidebar();
+      toggleSidebar();
     }
   };
 
@@ -30,7 +30,7 @@ const SideBar = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen]);
+  }, [isOpen, toggleSidebar]);
 
   const handleLogout = () => {
     localStorage.removeItem("profile");
@@ -53,87 +53,82 @@ const SideBar = ({
   };
 
   return (
-    <div className="h-full">
-      {/* Mobile Toggle Button */}
-      <div className="flex justify-between items-center p-4 md:hidden">
-        <button
-          className="text-gray-600 focus:outline-none"
+    <>
+      {/* Overlay for mobile */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
           onClick={toggleSidebar}
-        >
-          {isOpen ? <FaTimes /> : <FaBars />}
-        </button>
-      </div>
-
-      {/* Sidebar */}
-      <div
-        ref={sidebarRef}
-        className={`fixed inset-y-0 left-0 w-64 bg-gray-600 text-white z-50 transform 
-          ${isOpen ? "translate-x-0" : "-translate-x-full"}
-          transition-transform duration-300 ease-in-out 
-          md:translate-x-0 md:static md:h-full
-          overflow-y-auto`}
-        style={{
-          top: "64px", // Adjust this value based on your navbar height
-          height: "calc(100vh - 64px)",
-        }}
+        />
+      )}
+      
+      <div 
+        ref={sidebarRef} 
+        className={`
+          fixed lg:sticky top-0 
+          h-screen lg:h-[calc(100vh-64px)]
+          w-[280px] lg:w-64
+          z-50 lg:z-30
+          ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          transition-transform duration-300 ease-in-out
+          bg-gray-800
+          shadow-xl lg:shadow-none
+          pt-16 lg:pt-4
+          overflow-hidden
+        `}
       >
-        <div className="p-4">
-          <div className="text-gray-700 mb-4">
-            <SelectShowroom />
+        <div className="flex-1 overflow-y-auto px-4 py-2 h-full">
+        <div className="w-full px-4 py-4">
+            <div>
+              <SelectShowroom />
+            </div>
           </div>
 
-          <ul className="space-y-2">
-            {menuItems.map(({ title, path, icon, submenu }) => {
-              const isActive = location.pathname.startsWith(path || "");
-
-              return (
-                <li key={title} className="my-2">
+          <nav className="space-y-1">
+            <ul className="space-y-1">
+              {menuItems.map(({ title, path, icon, submenu }) => (
+                <li key={title}>
                   <div
-                    className={`flex items-center justify-between p-2 rounded-md cursor-pointer transition-colors duration-200`}
+                    className={`
+                      flex items-center justify-between
+                      p-3 rounded-lg
+                      cursor-pointer
+                      text-gray-300 hover:text-white
+                      hover:bg-gray-700
+                      transition-all duration-200
+                      ${location.pathname === path ? 'bg-gray-700 text-white' : ''}
+                    `}
                     onClick={() =>
                       submenu ? toggleSubmenu(title) : handleMenuItemClick(path || "")
                     }
                   >
-                    <div className="flex items-center">
-                      <span className="mr-3">{icon}</span>
-                      {/* Only render a Link if the path exists */}
-                      {path ? (
-                        <Link
-                          to={path || ""}
-                          className={`flex-grow text-white hover:text-main ${
-                            isActive ? "text-main" : ""
-                          }`}
-                        >
-                          {title}
-                        </Link>
-                      ) : (
-                        <span
-                          className={`flex-grow text-white ${
-                            openSubmenu === title ? "text-main" : ""
-                          }`}
-                        >
-                          {title}
-                        </span>
-                      )}
+                    <div className="flex items-center space-x-3">
+                      <span className="text-xl">{icon}</span>
+                      <span className="font-medium">{title}</span>
                     </div>
-                    {/* If submenu exists, add a dropdown icon */}
                     {submenu && (
                       <FaChevronDown
-                        className={`transition-transform ${
+                        className={`transition-transform duration-200 ${
                           openSubmenu === title ? "rotate-180" : ""
                         }`}
                       />
                     )}
                   </div>
-                  
-                  {/* Submenu */}
+
                   {submenu && openSubmenu === title && (
-                    <ul className="pl-6">
+                    <ul className="mt-1 ml-8 space-y-1">
                       {submenu.map((subItem) => (
                         <li
                           key={subItem.title}
-                          className="my-1 cursor-pointer hover:text-main"
                           onClick={() => handleMenuItemClick(subItem.path)}
+                          className={`
+                            py-2 px-3 rounded-md
+                            text-gray-400 hover:text-white
+                            hover:bg-gray-700
+                            cursor-pointer
+                            transition-colors duration-200
+                            ${location.pathname === subItem.path ? 'bg-gray-700 text-white' : ''}
+                          `}
                         >
                           {subItem.title}
                         </li>
@@ -141,16 +136,28 @@ const SideBar = ({
                     </ul>
                   )}
                 </li>
-              );
-            })}
-            <div onClick={handleLogout} className="flex gap-2 cursor-pointer mt-4">
-              <FaSignOutAlt className="ml-2 mt-2" />
-              <span className="hover:text-main">Log out</span>
-            </div>
-          </ul>
+              ))}
+            </ul>
+          </nav>
+
+          <div 
+            onClick={handleLogout}
+            className="
+              absolute bottom-8 left-4 right-4
+              flex items-center space-x-3
+              p-3 rounded-lg
+              text-gray-300 hover:text-white
+              hover:bg-gray-700
+              cursor-pointer
+              transition-colors duration-200
+            "
+          >
+            <FaSignOutAlt className="text-xl" />
+            <span className="font-medium">Log out</span>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
