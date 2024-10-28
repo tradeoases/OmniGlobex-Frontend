@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { IDashboardNav, dashboardNavs } from "@/data/data";
+import { dashboardNavs } from "@/data/data";
 import { FaBars, FaChevronDown, FaTimes } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import SupplierNavBar from "./supplier-profile/SupplierNavBar";
@@ -14,7 +14,6 @@ import { SupplierDropDownProfile } from "./supplier-profile/SupplierDropDownProf
 const SuppliersDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
-  const [navigations] = useState<IDashboardNav[]>(dashboardNavs);
   const [settingsSubMenuOpen, setSettingsSubMenuOpen] = useState<boolean>(false); 
   const [activeItem, setActiveItem] = useState<string | null>(null); 
 
