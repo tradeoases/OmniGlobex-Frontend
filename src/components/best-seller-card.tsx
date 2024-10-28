@@ -10,6 +10,7 @@ export const BestSellerCard: React.FC<IBestSeller> = ({ name, image }) => {
           className="w-10 h-10 md:w-16 md:h-16 lg:w-20 lg:h-20"
         />
       </div>
+
       <p className="text-sm text-gray-700 font-semibold">{name}</p>
     </div>
   );

@@ -39,89 +39,104 @@ const Sidemenu = () => {
   };
 
   useEffect(() => {
+    // Prevent body scroll when sidemenu is open
+    if (sidemenu) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      // Reset body scroll on unmount
+      document.body.style.overflow = 'unset';
     };
-  }, []);
+  }, [sidemenu]); // Add sidemenu to dependency array
 
   return (
     <div
-      className={`lg:hidden overflow-hidden w-[100vw] h-full bg-black/45 fixed left-0 top-0 bottom-0 z-20 transition-transform duration-400 ease-in-out ${
+      className={`lg:hidden overflow-hidden w-[100vw] h-[100vh] bg-black/45 fixed left-0 top-0 bottom-0 z-20 transition-transform duration-400 ease-in-out ${
         sidemenu ? "translate-x-0" : "-translate-x-full"
       }`}
     >
       <div
         ref={sidebarRef}
-        className={`lg:hidden w-[70vw] md:w-[40vw] h-full fixed left-0 top-0 bottom-0 bg-white z-50 space-y-10 transition-transform duration-300 ${
+        className={`lg:hidden w-[70vw] md:w-[40vw] h-full fixed left-0 top-0 bottom-0 bg-white z-50 flex flex-col transition-transform duration-300 ${
           sidemenu ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between p-6 pb-0">
-          <div className="flex items-center gap-4">
-            <p className="relative">
-              <span className="bg-main w-5 h-5 rounded-full text-xs flex items-center justify-center absolute -top-2 -right-3">
-                2
-              </span>
-              <HiArrowPath className="text-xl" />
-            </p>
+        {/* Fixed Header Section */}
+        <div className="flex flex-col space-y-10">
+          <div className="flex items-center justify-between p-6 pb-0">
+            <div className="flex items-center gap-4">
+              <p className="relative">
+                <span className="bg-main w-5 h-5 rounded-full text-xs flex items-center justify-center absolute -top-2 -right-3">
+                  2
+                </span>
+                <HiArrowPath className="text-xl" />
+              </p>
 
-            <p className="relative">
-              <span className="bg-main w-5 h-5 rounded-full text-xs flex items-center justify-center absolute -top-2 -right-3">
-                9
-              </span>
-              <IoIosHeartEmpty className="text-xl" />
-            </p>
-          </div>
-          <span
-            onClick={onClose}
-            className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center"
-          >
-            <HiOutlineXMark className="text-xl text-gray-300" />
-          </span>
-        </div>
-
-        <div className="px-6 w-full">
-          <div className="grid grid-cols-12 border">
-            <div className="col-span-9">
-              <input
-                type="text"
-                className="pl-2 py-2 text-xs outline-none"
-                placeholder="Search Product..."
-              />
-            </div>
-            <div className="bg-main flex items-center justify-center col-span-3 py-2 px-3">
-              <p className="font-bold text-sm">
-                <RiSearchLine />
+              <p className="relative">
+                <span className="bg-main w-5 h-5 rounded-full text-xs flex items-center justify-center absolute -top-2 -right-3">
+                  9
+                </span>
+                <IoIosHeartEmpty className="text-xl" />
               </p>
             </div>
+            <span
+              onClick={onClose}
+              className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center"
+            >
+              <HiOutlineXMark className="text-xl text-gray-300" />
+            </span>
+          </div>
+
+          <div className="px-6 w-full">
+            <div className="grid grid-cols-12 border">
+              <div className="col-span-9">
+                <input
+                  type="text"
+                  className="pl-2 py-2 text-xs outline-none"
+                  placeholder="Search Product..."
+                />
+              </div>
+              <div className="bg-main flex items-center justify-center col-span-3 py-2 px-3">
+                <p className="font-bold text-sm">
+                  <RiSearchLine />
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full flex items-center justify-center gap-x-2">
+            <button
+              onClick={() => setMenu(1)}
+              type="button"
+              className={`text-base font-medium ${
+                menu === 1 ? "text-black" : "text-gray-500"
+              }`}
+            >
+              Categories
+            </button>
+            <div className="h-4 w-[1.5px] bg-slate-800" />
+            <button
+              onClick={() => setMenu(2)}
+              type="button"
+              className={`text-base font-medium ${
+                menu === 2 ? "text-black" : "text-gray-500"
+              }`}
+            >
+              Main Menu
+            </button>
           </div>
         </div>
 
-        <div className="w-full flex items-center justify-center gap-x-2">
-          <button
-            onClick={() => setMenu(1)}
-            type="button"
-            className={`text-base font-medium ${
-              menu === 1 ? "text-black" : "text-gray-500"
-            }`}
-          >
-            Categories
-          </button>
-          <div className="h-4 w-[1.5px] bg-slate-800" />
-          <button
-            onClick={() => setMenu(2)}
-            type="button"
-            className={`text-base font-medium ${
-              menu === 2 ? "text-black" : "text-gray-500"
-            }`}
-          >
-            Main Menu
-          </button>
+        {/* Scrollable Content Section */}
+        <div className="flex-1 overflow-y-auto">
+          {menu === 1 && <SideMenuCategories />}
+          {menu === 2 && <MainMenu />}
         </div>
-
-        {menu === 1 && <SideMenuCategories />}
-        {menu === 2 && <MainMenu />}
       </div>
     </div>
   );
