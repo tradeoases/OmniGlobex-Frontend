@@ -13,12 +13,14 @@ import { SupplierDropDownProfile } from "./supplier-profile/SupplierDropDownProf
 
 const SuppliersDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+  const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
   const [navigations] = useState<IDashboardNav[]>(dashboardNavs);
   const [settingsSubMenuOpen, setSettingsSubMenuOpen] = useState<boolean>(false); 
   const [activeItem, setActiveItem] = useState<string | null>(null); 
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+    setIsProfileOpen(false);
   };
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -33,6 +35,7 @@ const SuppliersDashboard = () => {
     ) {
       setIsSidebarOpen(false);
       setSettingsSubMenuOpen(false);
+      setIsProfileOpen(false);
     }
   };
 
@@ -67,22 +70,33 @@ const SuppliersDashboard = () => {
             <Logo />
           </NavLink>
           <div ref={dropdownRef}>
-            <SupplierDropDownProfile />
+            <SupplierDropDownProfile 
+              isOpen={isProfileOpen}
+              setIsOpen={(open) => {
+                setIsProfileOpen(open);
+                if (open) setIsSidebarOpen(false);
+              }}
+            />
           </div>
         </div>
 
         <div
           ref={sidebarRef}
-          className={`lg:block bg-gray-600 overflow-scroll flex flex-col justify-start items-start text-xl lg:static fixed top-0 left-0 z-40 w-64 transition-transform duration-300 ease-in-out ${
+          className={`lg:block bg-gray-600 overflow-y-auto flex flex-col justify-start items-start text-xl lg:static fixed top-0 left-0 z-40 w-64 transition-transform duration-300 ease-in-out ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:translate-x-0 h-full lg:h-full pt-16`}
+          } lg:translate-x-0 h-screen lg:h-screen pt-16`}
         >
           <div className="absolute top-4 right-4 lg:hidden">
             <button onClick={toggleSidebar} className="text-xl">
               <FaTimes />
             </button>
           </div>
-          <SelectShowroom />
+          <div className="w-full px-4 py-4">
+            <div>
+              <SelectShowroom />
+            </div>
+          </div>
+          {/* <SelectShowroom /> */}
           {navigations.map((nav) => (
             <div key={nav.path}>
               <NavLink

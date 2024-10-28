@@ -3,24 +3,28 @@ import { Link, useNavigate } from "react-router-dom";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { useEffect, useRef, useState } from "react";
 
-export function SupplierDropDownProfile() {
-  const [isOpen, setIsOpen] = useState(false);
+interface SupplierDropDownProfileProps {
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+}
+
+export function SupplierDropDownProfile(props: SupplierDropDownProfileProps) {
   const [openSubmenu, setOpenSubmenu] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
+  const toggleDropdown = () => props.setIsOpen(!props.isOpen);
 
   const handleLogout = () => {
     localStorage.removeItem("profile");
     localStorage.removeItem("token");
-    setIsOpen(false);
+    props.setIsOpen(false);
     navigate("/");
     navigate(0);
   };
 
   const handleItemClick = () => {
-    setIsOpen(false);
+    props.setIsOpen(false);
     setOpenSubmenu("");
   };
 
@@ -34,7 +38,7 @@ export function SupplierDropDownProfile() {
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setIsOpen(false);
+        props.setIsOpen(false);
         setOpenSubmenu("");
       }
     };
@@ -68,7 +72,7 @@ export function SupplierDropDownProfile() {
         <FaUserCircle size={25} />
       </button>
 
-      {isOpen && (
+      {props.isOpen && (
         <div className="absolute right-0 mt-2 w-52 text-sm bg-white border border-gray-200 rounded-md shadow-lg z-10">
           <div className="py-1">
             <button
