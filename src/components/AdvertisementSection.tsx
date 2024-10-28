@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { LuChevronRight } from "react-icons/lu";
 
 const AdvertisementSection = () => {
@@ -7,15 +6,13 @@ const AdvertisementSection = () => {
       {/* Section Header */}
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h2 className="text-2xl font-bold text-gray-900">
-            Advertisement
-          </h2>
+          <h2 className="text-2xl font-bold text-gray-900">Advertisement</h2>
           <p className="text-gray-500">
             Check out our latest promotions and special offers
           </p>
         </div>
-        <button 
-          onClick={()=>alert("under implementation")}
+        <button
+          onClick={() => alert("under implementation")}
           className="hidden md:inline-flex items-center text-main hover:text-main/90"
         >
           View All
@@ -32,9 +29,11 @@ const AdvertisementSection = () => {
             <span className="text-white text-sm font-medium bg-main/90 px-3 py-1 rounded-full w-fit mb-3">
               New Arrival
             </span>
-            <h3 className="text-white text-2xl font-bold mb-2">New Collection</h3>
-            <button  
-             onClick={()=>alert("under implementation")}
+            <h3 className="text-white text-2xl font-bold mb-2">
+              New Collection
+            </h3>
+            <button
+              onClick={() => alert("under implementation")}
               className="inline-flex items-center text-white hover:underline"
             >
               <span>Shop Now</span>
@@ -50,9 +49,11 @@ const AdvertisementSection = () => {
             <span className="text-white text-sm font-medium bg-red-500/90 px-3 py-1 rounded-full w-fit mb-3">
               Limited Time
             </span>
-            <h3 className="text-white text-2xl font-bold mb-2">Special Deals</h3>
-            <button 
-              onClick={()=>alert("under implementation")}
+            <h3 className="text-white text-2xl font-bold mb-2">
+              Special Deals
+            </h3>
+            <button
+              onClick={() => alert("under implementation")}
               className="inline-flex items-center text-white hover:underline"
             >
               <span>View Offers</span>
@@ -68,9 +69,11 @@ const AdvertisementSection = () => {
             <span className="text-white text-sm font-medium bg-green-500/90 px-3 py-1 rounded-full w-fit mb-3">
               Featured
             </span>
-            <h3 className="text-white text-2xl font-bold mb-2">Featured Products</h3>
-            <button 
-              onClick={()=>alert("under implementation")}
+            <h3 className="text-white text-2xl font-bold mb-2">
+              Featured Products
+            </h3>
+            <button
+              onClick={() => alert("under implementation")}
               className="inline-flex items-center text-white hover:underline"
             >
               <span>Explore More</span>
