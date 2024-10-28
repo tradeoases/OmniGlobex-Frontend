@@ -53,8 +53,8 @@ const SideBar = ({
   };
 
   return (
-    <div>
-      {/* Sidebar Toggle Button (Mobile) */}
+    <div className="h-full">
+      {/* Mobile Toggle Button */}
       <div className="flex justify-between items-center p-4 md:hidden">
         <button
           className="text-gray-600 focus:outline-none"
@@ -67,85 +67,88 @@ const SideBar = ({
       {/* Sidebar */}
       <div
         ref={sidebarRef}
-        className={`fixed inset-y-0 left-0 h-full w-64 bg-gray-600 p-4 text-white z-50 transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:w-64`}
+        className={`fixed inset-y-0 left-0 w-64 bg-gray-600 text-white z-50 transform 
+          ${isOpen ? "translate-x-0" : "-translate-x-full"}
+          transition-transform duration-300 ease-in-out 
+          md:translate-x-0 md:static md:h-full
+          overflow-y-auto`}
         style={{
-          maxHeight: "calc(100vh - 64px)",
-          top: "80px",
-          overflowY: "auto",
+          top: "64px", // Adjust this value based on your navbar height
+          height: "calc(100vh - 64px)",
         }}
       >
-        <ul className="p-4 flex-grow border-gray-300 rounded-lg shadow-lg">
-          <div className="text-gray-700">
+        <div className="p-4">
+          <div className="text-gray-700 mb-4">
             <SelectShowroom />
           </div>
 
-          {menuItems.map(({ title, path, icon, submenu }) => {
-            const isActive = location.pathname.startsWith(path || "");
+          <ul className="space-y-2">
+            {menuItems.map(({ title, path, icon, submenu }) => {
+              const isActive = location.pathname.startsWith(path || "");
 
-            return (
-              <li key={title} className="my-2">
-                <div
-                  className={`flex items-center justify-between p-2 rounded-md cursor-pointer transition-colors duration-200`}
-                  onClick={() =>
-                    submenu ? toggleSubmenu(title) : handleMenuItemClick(path || "")
-                  }
-                >
-                  <div className="flex items-center">
-                    <span className="mr-3">{icon}</span>
-                    {/* Only render a Link if the path exists */}
-                    {path ? (
-                      <Link
-                        to={path || ""}
-                        className={`flex-grow text-white hover:text-main ${
-                          isActive ? "text-main" : ""
+              return (
+                <li key={title} className="my-2">
+                  <div
+                    className={`flex items-center justify-between p-2 rounded-md cursor-pointer transition-colors duration-200`}
+                    onClick={() =>
+                      submenu ? toggleSubmenu(title) : handleMenuItemClick(path || "")
+                    }
+                  >
+                    <div className="flex items-center">
+                      <span className="mr-3">{icon}</span>
+                      {/* Only render a Link if the path exists */}
+                      {path ? (
+                        <Link
+                          to={path || ""}
+                          className={`flex-grow text-white hover:text-main ${
+                            isActive ? "text-main" : ""
+                          }`}
+                        >
+                          {title}
+                        </Link>
+                      ) : (
+                        <span
+                          className={`flex-grow text-white ${
+                            openSubmenu === title ? "text-main" : ""
+                          }`}
+                        >
+                          {title}
+                        </span>
+                      )}
+                    </div>
+                    {/* If submenu exists, add a dropdown icon */}
+                    {submenu && (
+                      <FaChevronDown
+                        className={`transition-transform ${
+                          openSubmenu === title ? "rotate-180" : ""
                         }`}
-                      >
-                        {title}
-                      </Link>
-                    ) : (
-                      <span
-                        className={`flex-grow text-white ${
-                          openSubmenu === title ? "text-main" : ""
-                        }`}
-                      >
-                        {title}
-                      </span>
+                      />
                     )}
                   </div>
-                  {/* If submenu exists, add a dropdown icon */}
-                  {submenu && (
-                    <FaChevronDown
-                      className={`transition-transform ${
-                        openSubmenu === title ? "rotate-180" : ""
-                      }`}
-                    />
+                  
+                  {/* Submenu */}
+                  {submenu && openSubmenu === title && (
+                    <ul className="pl-6">
+                      {submenu.map((subItem) => (
+                        <li
+                          key={subItem.title}
+                          className="my-1 cursor-pointer hover:text-main"
+                          onClick={() => handleMenuItemClick(subItem.path)}
+                        >
+                          {subItem.title}
+                        </li>
+                      ))}
+                    </ul>
                   )}
-                </div>
-                
-                {/* Submenu */}
-                {submenu && openSubmenu === title && (
-                  <ul className="pl-6">
-                    {submenu.map((subItem) => (
-                      <li
-                        key={subItem.title}
-                        className="my-1 cursor-pointer hover:text-main"
-                        onClick={() => handleMenuItemClick(subItem.path)}
-                      >
-                        {subItem.title}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            );
-          })}
-          <div onClick={handleLogout} className="flex gap-2 cursor-pointer">
-            <FaSignOutAlt className="ml-2 mt-2" />
-            <span className="hover:text-main">Log out</span>
-          </div>
-        </ul>
+                </li>
+              );
+            })}
+            <div onClick={handleLogout} className="flex gap-2 cursor-pointer mt-4">
+              <FaSignOutAlt className="ml-2 mt-2" />
+              <span className="hover:text-main">Log out</span>
+            </div>
+          </ul>
+        </div>
       </div>
     </div>
   );
