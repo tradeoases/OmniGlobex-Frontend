@@ -14,22 +14,31 @@ const BuyerDashboard = () => {
   };
 
   return (
-    <div className="flex  flex-col h-screen ">
+    <div className="flex flex-col min-h-screen max-h-screen">
       <BuyersNavBar />
 
       <div className="relative flex flex-1 overflow-hidden">
+        {/* Overlay for mobile when sidebar is open */}
+        {isSidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
+            onClick={toggleSidebar}
+          />
+        )}
+
         <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-        <main className="flex-1 w-full overflow-y-auto">
+        <main className="flex-1 w-full overflow-y-auto bg-gray-50">
           <ProtectedRoute
             isAuthenticated={!!profile}
             userRole={profile?.roles || []}
             requiredRoles={["Buyer"]}
           >
-            <Outlet />
+            <div className="p-4">
+              <Outlet />
+            </div>
           </ProtectedRoute>
         </main>
-
       </div>
     </div>
   );
