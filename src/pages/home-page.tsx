@@ -9,6 +9,7 @@ import { OurServiceSection } from "@/components/our-service-section";
 // import PopularSales from "@/components/PopularSales";
 import ShopBrandSection from "@/components/ShopBrandSection";
 import TopSellingProducts from "@/components/TopSellingProducts";
+import AdvertisementSection from "@/components/AdvertisementSection";
 
 import { HeaderSection } from "@/components/header-section";
 import { useRef } from "react";
@@ -54,6 +55,7 @@ export default function HomePage() {
     <main className=" mx-auto py-8 space-y-10">
       <HeaderSection onScroll={() => scrollToSection()} />
       <OurServiceSection sectionRef={sectionRef} />
+      <AdvertisementSection />
       <GameWorldSection
         products={products?.products}
         name="Country showrooms"
