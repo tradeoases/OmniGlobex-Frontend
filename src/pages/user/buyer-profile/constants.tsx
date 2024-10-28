@@ -7,6 +7,7 @@ import {
 } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
 
+
 export const menuItems = [
   {
     title: "My RFQs",
@@ -48,6 +49,6 @@ export const menuItems = [
     path: "logout",
     icon: <FaSignOutAlt />,
     className:
-      "text-red-400 hover:text-red-300 mt-4 border-t border-gray-700 pt-4",
+      "hover:text-red-300 mt-4 border-t border-gray-700 pt-4",
   },
 ];
