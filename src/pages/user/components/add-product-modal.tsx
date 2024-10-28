@@ -335,6 +335,7 @@ export const AddProductModal: React.FC<Props> = () => {
                   </Popover>
                 </div>
                 <SingleImageUpload
+                  fieldName="productImage"
                   image={image}
                   setImage={(image: string | null): void => setImage(image)}
                 />
