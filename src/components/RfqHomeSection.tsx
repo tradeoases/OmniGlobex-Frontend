@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 // Define an interface for RFQ data
 interface RFQ {
   name: string;
@@ -8,36 +6,36 @@ interface RFQ {
   quotations: number;
 }
 
-interface RFQCarouselProps {
-  rfqs: RFQ[];
-}
+// interface RFQCarouselProps {
+//   rfqs: RFQ[];
+// }
 
-const RFQCarousel: React.FC<RFQCarouselProps> = ({ rfqs }) => {
-  return (
-    <div className="rfq-carousel mb-4">
-      {rfqs.length === 0 ? (
-        <p className="text-center text-gray-700">
-          No RFQs available at the moment.
-        </p>
-      ) : (
-        <div className="carousel">
-          {rfqs.map((rfq, index) => (
-            <div
-              key={index}
-              className="rfq-item bg-gray-200 text-gray-400 p-4 rounded-md shadow mb-2"
-            >
-              <p className="rfq-text">
-                <strong>{rfq.name}</strong> from <strong>{rfq.country}</strong>{" "}
-                is looking for <strong>{rfq.product}</strong> and has received{" "}
-                <strong>{rfq.quotations}</strong> quotation(s).
-              </p>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
+// const RFQCarousel: React.FC<RFQCarouselProps> = ({ rfqs }) => {
+//   return (
+//     <div className="rfq-carousel mb-4">
+//       {rfqs.length === 0 ? (
+//         <p className="text-center text-gray-700">
+//           No RFQs available at the moment.
+//         </p>
+//       ) : (
+//         <div className="carousel">
+//           {rfqs.map((rfq, index) => (
+//             <div
+//               key={index}
+//               className="rfq-item bg-gray-200 text-gray-400 p-4 rounded-md shadow mb-2"
+//             >
+//               <p className="rfq-text">
+//                 <strong>{rfq.name}</strong> from <strong>{rfq.country}</strong>{" "}
+//                 is looking for <strong>{rfq.product}</strong> and has received{" "}
+//                 <strong>{rfq.quotations}</strong> quotation(s).
+//               </p>
+//             </div>
+//           ))}
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
 
 const RfqHomeSection: React.FC = () => {
   // Dummy data for RFQs
