@@ -4,8 +4,11 @@ import { Logo } from "@/components/logo";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { SupplierDropDownProfile } from "./SupplierDropDownProfile";
+import { useState } from "react";
 
 const SupplierNavBar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  
   return (
     <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,7 +27,7 @@ const SupplierNavBar = () => {
             </Link>
           </div>
           <div className="relative flex justify-end items-center">
-            <SupplierDropDownProfile />
+            <SupplierDropDownProfile isOpen={isOpen} setIsOpen={setIsOpen} />
           </div>
         </div>
       </div>
