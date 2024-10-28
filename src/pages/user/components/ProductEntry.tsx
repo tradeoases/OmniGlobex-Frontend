@@ -423,6 +423,7 @@ const ProductEntry = () => {
               image={image}
               setImage={(image: string | null): void => setImage(image)}
               image_url={product?.cover_image.thumbnail_url}
+              fieldName="coverImage"  // Add this line
             />
 
             <div className="">

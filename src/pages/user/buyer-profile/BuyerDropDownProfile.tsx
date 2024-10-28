@@ -46,43 +46,43 @@ export function BuyerDropDownProfile() {
     <div ref={dropdownRef} className="relative inline-block text-left">
       <button
         onClick={toggleDropdown}
-        className="flex items-center px-4 py-2 rounded-md focus:outline-none"
+        className="flex items-center px-3 py-2 rounded-full hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
       >
-        <FaUserCircle size={25} />
+        <FaUserCircle className="text-gray-600 hover:text-gray-800" size={25} />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-52 text-sm bg-white border border-gray-200 rounded-md shadow-lg z-10">
+        <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-10 overflow-hidden">
           <div className="py-1">
             <div className="relative">
               <button
                 onClick={toggleAccountDropdown}
-                className="flex items-center text-sm gap-14 px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none"
+                className="w-full flex items-center justify-between px-4 py-2.5 text-gray-700 hover:bg-gray-50 transition-colors duration-150"
               >
-                My Account
-                <ChevronRightIcon size={20} />
+                <span className="font-medium">My Account</span>
+                <ChevronRightIcon size={18} className={`transform transition-transform duration-200 ${isAccountOpen ? 'rotate-90' : ''}`} />
               </button>
 
               {isAccountOpen && (
-                <div className="mt-2 bg-white border border-gray-200 rounded-md shadow-lg">
+                <div className="bg-gray-50 border-t border-b border-gray-100">
                   <Link
                     to="/buyer-dashboard/myAccount/preferences"
                     onClick={handleItemClick}
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    className="block px-8 py-2.5 text-gray-600 hover:bg-gray-100 transition-colors duration-150"
                   >
                     My Favorites
                   </Link>
                   <Link
                     to="/buyer-dashboard/myAccount/preferences"
                     onClick={handleItemClick}
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    className="block px-8 py-2.5 text-gray-600 hover:bg-gray-100 transition-colors duration-150"
                   >
                     Sourcing Preferences
                   </Link>
                   <Link
                     to="/buyer-dashboard/myAccount/profile"
                     onClick={handleItemClick}
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    className="block px-8 py-2.5 text-gray-600 hover:bg-gray-100 transition-colors duration-150"
                   >
                     User Profile
                   </Link>
@@ -93,14 +93,14 @@ export function BuyerDropDownProfile() {
             <Link
               to="/buyer-dashboard/messages"
               onClick={handleItemClick}
-              className="block px-4 py-2 text-gray-700 text-sm hover:bg-gray-100"
+              className="block px-4 py-2.5 text-gray-700 hover:bg-gray-50 transition-colors duration-150"
             >
               Messages
             </Link>
 
             <span
               onClick={handleLogout}
-              className="block px-4 py-2 text-gray-700 text-sm cursor-pointer hover:bg-gray-100"
+              className="block px-4 py-2.5 text-gray-700 hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
             >
               Logout
             </span>
