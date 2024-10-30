@@ -76,7 +76,7 @@ const SuppliersDashboard = () => {
           </div>
 
           {/* Showroom selector */}
-          <div className="w-full px-6 py-20 border-b border-gray-700">
+          <div className="w-full px-6 mt-20 border-b border-gray-700">
             <SelectShowroom />
           </div>
           

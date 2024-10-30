@@ -66,7 +66,7 @@ export function BuyerDropDownProfile() {
               {isAccountOpen && (
                 <div className="bg-gray-50 border-t border-b border-gray-100">
                   <Link
-                    to="/buyer-dashboard/myAccount/preferences"
+                    to="/buyer-dashboard/myAccount/favorites"
                     onClick={handleItemClick}
                     className="block px-8 py-2.5 text-gray-600 hover:bg-gray-100 transition-colors duration-150"
                   >
