@@ -5,7 +5,7 @@ import AnnounceBanner from "@/components/AnnounceBanner";
 import BestSeller from "@/components/BestSeller";
 import GameWorldSection from "@/components/GameWorldSection";
 import NewArrivalSection from "@/components/NewArrivalSection";
-import { OurServiceSection } from "@/components/our-service-section";
+// import { OurServiceSection } from "@/components/our-service-section";
 // import PopularSales from "@/components/PopularSales";
 import ShopBrandSection from "@/components/ShopBrandSection";
 import TopSellingProducts from "@/components/TopSellingProducts";
@@ -54,7 +54,7 @@ export default function HomePage() {
   return (
     <main className=" mx-auto py-8 space-y-10">
       <HeaderSection onScroll={() => scrollToSection()} />
-      <OurServiceSection sectionRef={sectionRef} />
+      {/* <OurServiceSection sectionRef={sectionRef} /> */}
       <AdvertisementSection />
       <GameWorldSection
         products={products?.products}
