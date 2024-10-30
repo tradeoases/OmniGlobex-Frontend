@@ -22,7 +22,6 @@ import DashboardLayout from "./pages/user/DashboardLayout";
 import { Overview } from "./components/profile-dashboard/overview";
 import BuyersShowRoom from "./pages/user/buyer-profile/BuyersShowRoom";
 import OrderTracking from "./pages/user/buyer-profile/OrderTracking";
-import Ratings from "./pages/user/buyer-profile/Ratings";
 import BuyerAccount from "./pages/user/buyer-profile/BuyerAccount";
 import MyFavorites from "./pages/user/buyer-profile/MyFavorite";
 import SourcingPreferences from "./pages/user/buyer-profile/SourcingPreferences";
@@ -73,6 +72,7 @@ import RFQForm from "./pages/user/buyer-profile/RfqsForm";
 import SinglePreviewProduct from "./pages/user/supplier-profile/SingleProductPreview";
 import Users from "./pages/user/supplier-profile/Users";
 import ChangeBuyerPassword from "./pages/BuyersAuthentication/ChangeBuyerPassword";
+import BuyerRatings from "./pages/user/buyer-profile/BuyerRatings";
 
 const RoutesConfig = () => {
   const [, setUserData] = useRecoilState<IUser | null>(userStore);
@@ -132,7 +132,7 @@ const RoutesConfig = () => {
         {/* <Route path="rfq/RFQForm" element={<RFQForm />} /> */}
 
         <Route path="orders" element={<OrderTracking />} />
-        <Route path="ratings" element={<Ratings />} />
+        <Route path="ratings" element={<BuyerRatings />} />
 
         <Route path="settings" >
           <Route path="change-password" element={<ChangeBuyerPassword />} />

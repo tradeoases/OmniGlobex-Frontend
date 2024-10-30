@@ -128,7 +128,7 @@ const NavBar = () => {
 
                   {userData.roles.includes("Buyer") && (
                     <DropdownMenuItem
-                      onClick={() => navigate(`/buyer-dashboard/messages`)}
+                      onClick={() => navigate(`/buyer-dashboard/myAccount/profile`)}
                     >
                       Buyer Dashboard
                     </DropdownMenuItem>
@@ -136,7 +136,7 @@ const NavBar = () => {
 
                   {userData.roles.includes("Supplier") && (
                     <DropdownMenuItem
-                      onClick={() => navigate(`/supplier-dashboard/messages`)}
+                      onClick={() => navigate(`/supplier-dashboard/supplier-profile`)}
                     >
                       Manage supplies
                     </DropdownMenuItem>

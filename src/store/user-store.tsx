@@ -52,6 +52,9 @@ export interface IUser {
       | "TELEGRAM";
     link: string;
   }[];
+  subscription?: {
+    plan: "Basic" | "Standard" | "Premium";
+  };
 }
 
 export interface IUpdateProfileData {

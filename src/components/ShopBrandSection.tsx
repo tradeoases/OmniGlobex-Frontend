@@ -19,7 +19,7 @@ const ShopBrandSection = () => {
   return (
     <div className="w-full">
       <div className="bg-main p-2 pb-3 ">
-        <SectionHeader name="Shop by Brand" />
+        <SectionHeader name="Explore our suppliers" />
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-0 child">
         {brands.map((item, i) => (

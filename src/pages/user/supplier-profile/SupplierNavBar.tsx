@@ -8,7 +8,7 @@ import { useState } from "react";
 
 const SupplierNavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  
+
   return (
     <nav className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -21,7 +21,7 @@ const SupplierNavBar = () => {
             <p className="text-2xl font-semibold pl-6">Supplier Center</p>
             <Link
               className="border  px-2 py-1 ml-6 rounded-full cursor-pointerbg-white text-main  border-main hover:bg-main hover:text-white transition duration-300 shadow-md hover:shadow-lg "
-              to="/buyer-dashboard"
+              to="/buyer-dashboard/myAccount/profile"
             >
               Switch to Buyer
             </Link>
