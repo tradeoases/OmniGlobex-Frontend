@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import RfqDashboard from "./RfqDashboard";
 import { RFQCategories } from "./RfqCategories";
-import RfqUnits from "./RfqUnits";
-import RfqCurrencies from "./RfqCurrencies";
+import { RfqUnits } from "./RfqUnits";
+import { RfqCurrencies } from "./RfqCurrencies";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Checkbox } from "@/components/ui/checkbox";
+import { X } from "lucide-react";
 
 interface FormData {
   productName: string;
@@ -47,6 +48,23 @@ const RFQForm: React.FC = () => {
 
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const [isAnyDropdownOpen, setIsAnyDropdownOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAnyDropdownOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isAnyDropdownOpen]);
+
+
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -107,202 +125,213 @@ const RFQForm: React.FC = () => {
     }
   };
 
+  const handleClose = () => {
+    navigate("/buyer-dashboard/rfq");
+  };
+
   return (
-    <div>
-      <div className="block sm:hidden text-center my-4">
-        <Link
-          to="/buyer-dashboard/rfq"
-          className="text-main font-bold cursor-pointer hover:underline"
-        >
-          My RFQs
-        </Link>
-      </div>
-      <RfqDashboard />
-      <div className="max-w-4xl mx-auto my-8">
-        <div className="flex justify-between border py-4 px-4 items-start space-x-6">
-          <div className="flex-1">
-            <div className="relative">
-              <div className="absolute transform -translate-x-1/2 w-6 h-6 rounded-full bg-gray-500 text-white flex items-center justify-center font-bold">
-                1
-              </div>
-              <div className="ml-5 text-center">
-                <h3 className="text-sm font-medium">
-                  Submit a RFQ in just 1 minute.
-                </h3>
-              </div>
-            </div>
-          </div>
+    <div className="relative min-h-screen bg-gray-50">
+      <div className={`${isAnyDropdownOpen ? "md:pr-[17px]" : ""}`}>
+        <RfqDashboard />
 
-          <div className="flex-1">
-            <div className="relative">
-              <div className="absolute  transform -translate-x-1/2 w-6 h-6 rounded-full bg-gray-500 text-white flex items-center justify-center font-bold">
-                2
-              </div>
-              <div className="ml-5 text-center">
-                <h3 className="text-sm font-medium">
-                  Get multiple quotations from verified suppliers.
-                </h3>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex-1">
-            <div className="relative">
-              <div className="absolute transform -translate-x-1/2 w-6 h-6 rounded-full bg-gray-500 text-white flex items-center justify-center font-bold">
-                3
-              </div>
-              <div className="ml-5 text-center">
-                <h3 className="text-sm font-medium">
-                  Compare and choose the best quotation!
-                </h3>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="max-w-4xl mx-auto bg-white p-8 rounded-md shadow-md">
-        <h2 className="text-2xl font-bold mb-6">Request for Quotations- RFQ</h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block font-medium text-gray-700">
-              Product Name
-            </label>
-            <input
-              type="text"
-              name="productName"
-              placeholder="Enter a specific product name"
-              value={formData.productName}
-              onChange={handleInputChange}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
-            />
-            {formErrors.productName && (
-              <p className="text-red-500 text-sm">{formErrors.productName}</p>
-            )}
-          </div>
-
-          <RFQCategories />
-
-          <div>
-            <label className="block font-medium text-gray-700">
-              About Your Product
-            </label>
-            <textarea
-              name="aboutProduct"
-              value={formData.aboutProduct}
-              placeholder="Please indicate your detailed requirements to ensure fast and efficient response from suppliers.You may include: Size/Dimension,Packaging requirements and/ or others."
-              onChange={handleInputChange}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
-              rows={4}
-            />
-            {formErrors.aboutProduct && (
-              <p className="text-red-500 text-sm">{formErrors.aboutProduct}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block font-medium text-gray-700">
-              Upload Product Image
-            </label>
-            <input
-              type="file"
-              name="productImage"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            />
-            {formErrors.productImage && (
-              <p className="text-red-500 text-sm">{formErrors.productImage}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block font-medium text-gray-700">
-              Sourcing Type
-            </label>
-            <select
-              name="sourcingType"
-              value={formData.sourcingType}
-              onChange={handleInputChange}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        <div className="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-xl shadow-lg my-8">
+          <div className="flex justify-between items-center mb-8 border-b pb-4">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
+              Request for Quotations
+            </h2>
+            <button
+              onClick={handleClose}
+              className="p-2 hover:bg-gray-100 rounded-full transition-all duration-200 ease-in-out"
+              aria-label="Close form"
             >
-              <option value="">Select one</option>
-              <option value="Business Service">Business Service</option>
-              <option value="Customized Product">Customized Product</option>
-              <option value="Non-customized Product">
-                Non-customized Product
-              </option>
-              <option value="Total Solution">Total Solution</option>
-              <option value="Other">Other</option>
-            </select>
-            {formErrors.sourcingType && (
-              <p className="text-red-500 text-sm">{formErrors.sourcingType}</p>
-            )}
+              <X className="w-6 h-6 text-gray-500" />
+            </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="grid w-full max-w-sm items-center gap-1.5 focus:outline-none">
-              <Label htmlFor="eoq">Estimated Order Quantity</Label>
-              <Input
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {/* Product Name */}
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700">
+                Product Name
+              </label>
+              <input
                 type="text"
-                id="eoq"
-                name="estimatedQuantity"
-                value={formData.estimatedQuantity}
+                name="productName"
+                placeholder="Enter a specific product name"
+                value={formData.productName}
                 onChange={handleInputChange}
-                placeholder="e.g. 1000"
+                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none"
               />
-              {formErrors.estimatedQuantity && (
-                <p className="text-red-500 text-sm">
-                  {formErrors.estimatedQuantity}
+              {formErrors.productName && (
+                <p className="text-red-500 text-sm mt-1">
+                  {formErrors.productName}
                 </p>
               )}
             </div>
 
-            {/* Units */}
-            <RfqUnits />
+            {/* Categories component remains the same */}
+            <RFQCategories
+              onDropdownChange={(isOpen) => setIsAnyDropdownOpen(isOpen)}
+            />
 
-            {/* Currency */}
-            <RfqCurrencies />
-
-            {/* Price */}
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="price">Price</Label>
-              <Input
-                type="text"
-                id="price"
-                name="price"
-                value={formData.price}
+            {/* About Product */}
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700">
+                About Your Product
+              </label>
+              <textarea
+                name="aboutProduct"
+                value={formData.aboutProduct}
+                placeholder="Please indicate your detailed requirements..."
                 onChange={handleInputChange}
-                placeholder="e.g. 60"
-                className=" mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none"
+                className="w-full p-3  border focus:outline-none rounded-lg min-h-[120px]"
+                rows={4}
               />
-              {formErrors.price && (
-                <p className="text-red-500 text-sm">{formErrors.price}</p>
+              {formErrors.aboutProduct && (
+                <p className="text-red-500 text-sm mt-1">
+                  {formErrors.aboutProduct}
+                </p>
               )}
             </div>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox id="remember" />
-            <label htmlFor="remember" className="text-sm text-gray-600">
-              I'd like to send this RFQ to more suppliers, if I have not
-              received 20 quotations within the next 48 hours.
-            </label>
-          </div>
-          <div>
-            <button
-              onClick={() => alert("Under implementation")}
-              type="submit"
-              className=" bg-main text-white py-2 px-4 rounded-full hover:bg-yellow-500"
-            >
-              Submit RFQ
-            </button>
-          </div>
 
-          {successMessage && (
-            <div className="mt-4 p-2 bg-green-100 text-green-700 border border-green-400 rounded-md">
-              {successMessage}
+            {/* File Upload */}
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700">
+                Upload Product Image
+              </label>
+              <div className="flex items-center justify-center w-full">
+                <label className="flex flex-col w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-all duration-200 ease-in-out">
+                  <div className="flex flex-col items-center justify-center pt-7">
+                    <svg
+                      className="w-8 h-8 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                    <p className="pt-1 text-sm text-gray-500">
+                      Click to upload or drag and drop
+                    </p>
+                  </div>
+                  <input
+                    type="file"
+                    name="productImage"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="opacity-0"
+                  />
+                </label>
+              </div>
+              {formErrors.productImage && (
+                <p className="text-red-500 text-sm mt-1">
+                  {formErrors.productImage}
+                </p>
+              )}
             </div>
-          )}
-        </form>
+
+            {/* Sourcing Type */}
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700">
+                Sourcing Type
+              </label>
+              <select
+                name="sourcingType"
+                value={formData.sourcingType}
+                onChange={handleInputChange}
+                className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none"
+              >
+                <option value="">Select one</option>
+                <option value="Business Service">Business Service</option>
+                <option value="Customized Product">Customized Product</option>
+                <option value="Non-customized Product">
+                  Non-customized Product
+                </option>
+                <option value="Total Solution">Total Solution</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            {/* Grid Section */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Existing grid components with updated styling */}
+              <div className="space-y-2">
+                <Label
+                  htmlFor="eoq"
+                  className="text-sm font-semibold text-gray-700"
+                >
+                  Estimated Order Quantity
+                </Label>
+                <Input
+                  type="text"
+                  id="eoq"
+                  name="estimatedQuantity"
+                  value={formData.estimatedQuantity}
+                  onChange={handleInputChange}
+                  placeholder="e.g. 1000"
+                  className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none"
+                />
+              </div>
+
+              <RfqUnits
+                onDropdownChange={(isOpen) => setIsAnyDropdownOpen(isOpen)}
+              />
+              <RfqCurrencies
+                // onDropdownChange={(isOpen) => setIsAnyDropdownOpen(isOpen)}
+              />
+
+              <div className="space-y-2">
+                <Label
+                  htmlFor="price"
+                  className="text-sm font-semibold text-gray-700"
+                >
+                  Price
+                </Label>
+                <Input
+                  type="text"
+                  id="price"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleInputChange}
+                  placeholder="e.g. 60"
+                  className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none"
+                />
+              </div>
+            </div>
+
+            {/* Checkbox */}
+            <div className="flex items-center space-x-3 py-4">
+              <Checkbox id="remember" className="h-5 w-5" />
+              <label htmlFor="remember" className="text-sm text-gray-600">
+                I'd like to send this RFQ to more suppliers, if I have not
+                received 20 quotations within the next 48 hours.
+              </label>
+            </div>
+
+            {/* Submit Button */}
+            <div>
+              <button
+              onClick={() => alert("under implementation")}
+                type="submit"
+                className="bg-main text-white py-3 px-8 rounded-lg hover:bg-yellow-500 transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none "
+              >
+                Submit RFQ
+              </button>
+            </div>
+
+            {/* Success Message */}
+            {successMessage && (
+              <div className="mt-4 p-4 bg-green-50 text-green-700 border border-green-200 rounded-lg">
+                {successMessage}
+              </div>
+            )}
+          </form>
+        </div>
       </div>
     </div>
   );

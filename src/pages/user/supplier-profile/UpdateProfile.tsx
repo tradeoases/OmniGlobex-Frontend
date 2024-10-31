@@ -142,18 +142,27 @@ const UpdateProfileForm = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-2 sm:px-4 lg:px-6 py-6">
-        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
-          {/* Updated header section with flex layout */}
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Update Profile</h2>
-            <Button 
-              type="submit" 
-              onClick={form.handleSubmit(onSubmit)}
-              className="bg-main hover:bg-yellow-500 text-white px-6 py-2 rounded-lg transition-colors duration-200"
-            >
-              Save Changes
-            </Button>
+      <div className="container mx-auto px-2 sm:px-4 lg:px-6 py-4 sm:py-6">
+        <div className="bg-white rounded-lg shadow-sm p-3 sm:p-4 md:p-6">
+          {/* Header section */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Update Profile</h2>
+            <div className="flex w-full sm:w-auto gap-3">
+              <Button 
+                variant="outline"
+                onClick={() => window.history.back()}
+                className="flex-1 sm:flex-none px-4 sm:px-6 py-2 text-sm sm:text-base rounded-lg transition-colors duration-200"
+              >
+                Cancel
+              </Button>
+              <Button 
+                type="submit" 
+                onClick={form.handleSubmit(onSubmit)}
+                className="flex-1 sm:flex-none bg-main hover:bg-yellow-500 text-white px-4 sm:px-6 py-2 text-sm sm:text-base rounded-lg transition-colors duration-200"
+              >
+                Save Changes
+              </Button>
+            </div>
           </div>
           
           <div className="flex flex-col xl:flex-row gap-4">
@@ -162,12 +171,12 @@ const UpdateProfileForm = () => {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-6 max-w-4xl"
+                  className="space-y-4 sm:space-y-6"
                 >
                   {/* Business Details Section */}
-                  <div className="space-y-6">
-                    <h3 className="text-lg font-semibold text-gray-700">Business Details</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4 sm:space-y-6">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-700">Business Details</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                       <FormField
                         control={form.control}
                         name="business_name"
@@ -199,9 +208,9 @@ const UpdateProfileForm = () => {
                   </div>
 
                   {/* Contact Information Section */}
-                  <div className="space-y-6">
-                    <h3 className="text-lg font-semibold text-gray-700">Contact Information</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4 sm:space-y-6">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-700">Contact Information</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                       <FormField
                         control={form.control}
                         name="profile.phonenumber"
@@ -232,9 +241,9 @@ const UpdateProfileForm = () => {
                   </div>
 
                   {/* Location Section */}
-                  <div className="space-y-6">
-                    <h3 className="text-lg font-semibold text-gray-700">Location</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4 sm:space-y-6">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-700">Location</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                       <FormField
                         control={form.control}
                         name="profile.city"
@@ -295,8 +304,8 @@ const UpdateProfileForm = () => {
                   </div>
 
                   {/* Additional Information Section */}
-                  <div className="space-y-6">
-                    <h3 className="text-lg font-semibold text-gray-700">Additional Information</h3>
+                  <div className="space-y-4 sm:space-y-6">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-700">Additional Information</h3>
                     <div className="grid grid-cols-1 gap-6">
                       <FormField
                         control={form.control}
@@ -350,13 +359,13 @@ const UpdateProfileForm = () => {
             </div>
 
             {/* Business Media Section */}
-            <div className="xl:w-[280px]">
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-100"> {/* Reduced p-6 to p-4 */}
-                <h3 className="text-lg font-semibold text-gray-700 mb-6">Business Media</h3>
-                <div className="space-y-6">
+            <div className="xl:w-[280px] w-full">
+              <div className="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-100">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-700 mb-4 sm:mb-6">Business Media</h3>
+                <div className="space-y-4 sm:space-y-6">
                   {/* Profile Image */}
-                  <div className="bg-white p-4 rounded-lg shadow-sm">
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                  <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm">
+                    <label className="block text-sm font-medium text-gray-700 mb-2 sm:mb-3">
                       Profile Image
                       <span className="text-xs text-gray-500 ml-1">
                         (Company Profile Picture)
@@ -374,8 +383,8 @@ const UpdateProfileForm = () => {
                   </div>
 
                   {/* Business Logo */}
-                  <div className="bg-white p-4 rounded-lg shadow-sm">
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                  <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm">
+                    <label className="block text-sm font-medium text-gray-700 mb-2 sm:mb-3">
                       Business Logo
                       <span className="text-xs text-gray-500 ml-1">
                         (Brand Identity)
@@ -393,8 +402,8 @@ const UpdateProfileForm = () => {
                   </div>
 
                   {/* Cover Image */}
-                  <div className="bg-white p-4 rounded-lg shadow-sm">
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                  <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm">
+                    <label className="block text-sm font-medium text-gray-700 mb-2 sm:mb-3">
                       Cover Image
                       <span className="text-xs text-gray-500 ml-1">
                         (Header Banner)
@@ -411,7 +420,7 @@ const UpdateProfileForm = () => {
                     </div>
                   </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-6 text-center">
+                <p className="text-xs text-gray-500 mt-4 sm:mt-6 text-center px-2">
                   Recommended: Upload high-quality images for better presentation
                 </p>
               </div>
