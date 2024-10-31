@@ -28,7 +28,11 @@ interface Unit {
   unit_name: string;
 }
 
-const RfqUnits = () => {
+interface RfqUnitsProps {
+  onDropdownChange: (isOpen: boolean) => void;
+}
+
+export const RfqUnits: React.FC<RfqUnitsProps> = () => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   const {
@@ -93,5 +97,3 @@ const RfqUnits = () => {
     </Popover>
   );
 };
-
-export default RfqUnits;

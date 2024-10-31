@@ -29,7 +29,7 @@ interface Currencies {
   currency_name: string;
 }
 
-const RfqCurrencies = () => {
+export function RfqCurrencies() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(""); // Store the selected category name
   const {
@@ -100,6 +100,4 @@ const RfqCurrencies = () => {
       </PopoverContent>
     </Popover>
   );
-};
-
-export default RfqCurrencies;
+}
