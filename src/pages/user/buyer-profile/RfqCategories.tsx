@@ -1,10 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+
 import {
   Command,
   CommandEmpty,
@@ -13,11 +13,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
 import { getAllProductCategories } from "@/service/apis/product-services";
 import { AxiosResponse, HttpStatusCode } from "axios";
 import { useQuery } from "@tanstack/react-query";
@@ -27,9 +23,25 @@ interface Category {
   name: string;
 }
 
-export function RFQCategories() {
+interface RFQCategoriesProps {
+  onDropdownChange: (isOpen: boolean) => void;
+}
+
+export function RFQCategories({ onDropdownChange }: RFQCategoriesProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
+
+  React.useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [open]);
 
   const {
     data: categories,
@@ -49,47 +61,74 @@ export function RFQCategories() {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error loading categories.</p>;
 
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+    onDropdownChange(newOpen);
+  };
+
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full text-gray-500 justify-between"
-        >
-          {value || "Select Category..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-full p-0">
-        <Command>
-          <CommandInput placeholder="Search category..." />
-          <CommandList>
-            <CommandEmpty>No product category found.</CommandEmpty>
-            <CommandGroup>
-              {categories?.map((category: Category) => (
-                <CommandItem
-                  key={category.category_id}
-                  value={category.name}
-                  onSelect={() => {
-                    setValue(category.name);
-                    setOpen(false);
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === category.name ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {category.name}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+    <div className="relative w-full">
+      <label className="block font-medium text-gray-700 mb-1 text-sm">
+        Product Category
+      </label>
+      <div 
+        onClick={() => handleOpenChange(!open)}
+        className="mt-1 block w-full p-2.5 border border-gray-300 rounded-md cursor-pointer bg-white text-sm"
+      >
+        {value || "Select category"}
+      </div>
+      
+      {open && (
+        <>
+          <div 
+            className="fixed inset-0 bg-black/20 z-40 md:hidden" 
+            onClick={() => handleOpenChange(false)} 
+          />
+          
+          <div 
+            className="fixed inset-0 z-50 md:static"
+            onClick={() => handleOpenChange(false)}
+          >
+            <div 
+              className="fixed md:absolute w-[calc(100%-2rem)] md:w-full mx-4 md:mx-0 left-0 right-0 md:right-auto top-[20%] md:top-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg"
+              onClick={e => e.stopPropagation()}
+            >
+              <Command className="w-full">
+                <CommandInput 
+                  placeholder="Search category..." 
+                  className="text-sm"
+                />
+                <CommandList className="max-h-[300px] overflow-y-auto">
+                  <CommandEmpty className="py-2 text-sm text-gray-500">
+                    No product category found.
+                  </CommandEmpty>
+                  <CommandGroup>
+                    {categories?.map((category: Category) => (
+                      <CommandItem
+                        key={category.category_id}
+                        value={category.name}
+                        onSelect={() => {
+                          setValue(category.name);
+                          setOpen(false);
+                        }}
+                        className="text-sm cursor-pointer hover:bg-gray-100 py-2"
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            value === category.name ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                        {category.name}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
   );
 }

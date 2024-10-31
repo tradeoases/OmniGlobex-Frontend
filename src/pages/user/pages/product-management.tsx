@@ -21,10 +21,11 @@ export const ProductManagement: React.FC<ProductProps> = () => {
             {productNavs.map((nav) => (
               <NavLink
                 to={nav.route}
+                end={nav.route === ""}
                 key={nav.route}
                 className={({ isActive }) =>
                   `py-3 text-xs px-2 whitespace-nowrap md:px-7 border-b cursor-pointer ${
-                    isActive ? " border-main" : " border-zinc-100 "
+                    isActive ? "border-main border-b-2" : "border-transparent"
                   }`
                 }
               >
