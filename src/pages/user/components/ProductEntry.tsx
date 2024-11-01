@@ -265,7 +265,31 @@ const ProductEntry = () => {
   }, [countryIsSuccess, countries, product, editId]);
 
   return (
-    <div>
+    <div className="relative max-w-[1400px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+      {/* Close button - repositioned to account for nav tabs */}
+      <div className="absolute right-3 top-[-30px] sm:top-[-45px] md:top-[-50px]">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-1.5 sm:p-2 rounded-full hover:bg-gray-100/80 transition-colors duration-200"
+          aria-label="Close form"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
       {successMessage && (
         <div className="mt-4 text-green-500">{successMessage}</div>
       )}
@@ -273,9 +297,10 @@ const ProductEntry = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full space-y-8 mt-16"
+            className="w-full space-y-6 sm:space-y-8 mt-8 sm:mt-10"
           >
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-2">
+            {/* Adjust form field spacing for mobile */}
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <FormField
                 control={form.control}
                 name="name"
@@ -294,46 +319,9 @@ const ProductEntry = () => {
                   </FormItem>
                 )}
               />
-
-              {/* <FormField
-                    control={form.control}
-                    name="brandId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <Select
-                          disabled
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select a brand for the product" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              {countries &&
-                                countries.map(
-                                  (country: {
-                                    countryId: string;
-                                    currency: string;
-                                  }) => (
-                                    <SelectItem
-                                      key={country.countryId}
-                                      value={country.countryId}
-                                    >
-                                      {country.currency}
-                                    </SelectItem>
-                                  )
-                                )}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  /> */}
             </div>
 
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-8">
               {categoryIsError && (
                 <div>
                   Faild to load categories
@@ -423,7 +411,7 @@ const ProductEntry = () => {
               image={image}
               setImage={(image: string | null): void => setImage(image)}
               image_url={product?.cover_image.thumbnail_url}
-              fieldName="coverImage"  // Add this line
+              fieldName="coverImage" // Add this line
             />
 
             <div className="">
@@ -611,8 +599,11 @@ const ProductEntry = () => {
             </div>
             <MultipleImageUpload images={images} setImages={setImages} />
 
-            <Button type="submit" className="w-full">
-              Create
+            <Button
+              type="submit"
+              className="w-full py-5 sm:py-6 text-base sm:text-lg"
+            >
+              {editId ? "Update" : "Create"}
             </Button>
           </form>
         </Form>
