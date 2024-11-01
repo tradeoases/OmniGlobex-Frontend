@@ -12,10 +12,9 @@ export const ProductManagement: React.FC<ProductProps> = () => {
 
   return (
     <div className="w-full col-span-3">
-      {/* {openCreateModal && (
-        <AddProductModal />
-      )} */}
-      <div className="w-full  space-y-6 lg:p-8 rounded-xl  border-black">
+     
+      {/* Rest of your existing content */}
+      <div className="w-full space-y-6 lg:p-8 rounded-xl border-black">
         <div className="border-b w-full">
           <div className="w-10/12 xl:w-8/12 mx-auto flex items-center">
             {productNavs.map((nav) => (
