@@ -63,10 +63,11 @@ const SingleProduct = () => {
     isError: isProductError,
     error: productError,
   } = useQuery({
-    queryKey: ["product", product_id],
+    queryKey: ["product", product_id, searchParams.get("currency")],
     queryFn: async () => {
       const response: AxiosResponse<{ data: IProduct }> = await getOneProduct(
-        product_id || ""
+        product_id || "",
+        `currency=${searchParams.get("currency")?.toString() || 'USD'}`
       );
       if (response.status === HttpStatusCode.Ok) {
         return response.data.data;
@@ -87,7 +88,7 @@ const SingleProduct = () => {
         res.status === HttpStatusCode.Ok
       ) {
         const r = res.data.data;
-        console.log({ r });
+
         navigate(`/buyer-dashboard/messages/${r.id}`, {
           state: {
             url: `https://www.omniglobex.com/single-product/?product_id=${product_id}`,

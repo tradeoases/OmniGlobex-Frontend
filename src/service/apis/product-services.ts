@@ -55,10 +55,14 @@ export const getAllProducts = async (params: string) => {
   return await request.get(`/product/${params}`);
 };
 
-export const getOneProduct = async (productId: string) =>
-  await request.get(`${PATH}${productId}`);
+export const getOneProduct = async (productId: string, params: string) =>
+  await request.get(`${PATH}${productId}?${params}`);
 
-export const getAllProductByUser = async () => await request.get(`${PATH}user`);
+export const getAllProductByUser = async () =>
+  await request.get(`${PATH}user/all`);
+
+export const getOneProductByUser = async (id: string) =>
+  await request.get(`${PATH}user/one/${id}`);
 
 export const getAllProductCategories = async () =>
   await request.get(`/category`);
@@ -68,4 +72,5 @@ export const createProduct = async (data: ICreateProduct) =>
 export const updateProduct = async (productId: string, data: any) =>
   await request.put(`${PATH}${productId}`, data);
 
-export const filteredProducts = async (params: string)=> await request.get(`/search/product/${params}`)
+export const filteredProducts = async (params: string) =>
+  await request.get(`/search/product/${params}`);

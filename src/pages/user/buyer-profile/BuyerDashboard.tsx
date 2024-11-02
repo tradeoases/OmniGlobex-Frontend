@@ -60,7 +60,7 @@ const BuyerDashboard = () => {
               ${isSidebarOpen ? 'lg:ml-0' : 'lg:ml-0'}
             `}
           >
-            <div className="container mx-auto px-4 py-8 max-w-[1600px]">
+            <div className="container mx-auto px-4 py-8 max-w-screen">
               <ProtectedRoute
                 isAuthenticated={!!profile}
                 userRole={profile?.roles || []}
@@ -71,7 +71,7 @@ const BuyerDashboard = () => {
                   rounded-xl 
                   shadow-sm 
                   p-6 
-                  min-h-[calc(100vh-180px)]
+                  max-h-[calc(100vh-180px)]
                   border border-gray-100
                 ">
                   <Outlet />

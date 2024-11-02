@@ -8,6 +8,7 @@ export interface ICreateProduct {
   brandId?: string;
   productImages?: string[];
   coverImage?: string;
+  units?: string;
 }
 
 export const productDetailNavs = [`Delivery Terms`, `Reviews`, `Seller Info`];

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { TiArrowLeftThick } from "react-icons/ti";
@@ -21,10 +21,17 @@ const ConversationMessageDisplay = () => {
   const { convId } = useParams();
   const profile = useRecoilValue(userStore);
   const [message, setMessage] = useState<string>("");
-
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [messages, setMessages] = useState<IMessages[] | null>(null);
   const location = useLocation();
   const { state } = location;
-  const [messages, setMessages] = useState<IMessages[] | null>(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSendMessage = async () => {
     try {
@@ -49,11 +56,11 @@ const ConversationMessageDisplay = () => {
     if (convId) {
       socket.emit("joinConversation", convId);
 
-      socket.emit('getMessages', convId)
+      socket.emit("getMessages", convId);
 
-      socket.on('allMessages', (data)=> {
-        setMessages(data)
-      })
+      socket.on("allMessages", (data) => {
+        setMessages(data);
+      });
 
       const handleNewMessage = (message: IMessages) => {
         setMessages((prevMessages) => [...(prevMessages || []), message]);
@@ -73,14 +80,31 @@ const ConversationMessageDisplay = () => {
   }, [convId]);
 
   return (
-    <div className="flex flex-col w-full p-2 h-[calc(100vh-110px)]">
-      <TiArrowLeftThick
-        className="md:hidden my-2"
-        onClick={() => navigate(-1)}
-      />
-      <div className="flex-1 overflow-y-auto p-0 overflow-scroll">
+    <div className="flex flex-col h-full">
+      {/* Header */}
+      <div className="p-4 border-b flex items-center">
+        <TiArrowLeftThick
+          className="md:hidden mr-2 text-2xl cursor-pointer"
+          onClick={() => navigate(-1)}
+        />
+        <h2 className="text-lg font-semibold">Messages</h2>
+      </div>
+
+      {/* Messages Container */}
+      <div className="flex-1 overflow-y-auto p-4">
+        {!messages && (
+          <div className="h-full flex items-center justify-center">
+            <h1>Loading messages...</h1>
+          </div>
+        )}
+
+        {messages && messages.length === 0 && (
+          <div className="h-full flex items-center justify-center text-gray-500">
+            No messages yet. Start a conversation!
+          </div>
+        )}
+
         {messages &&
-          Array.isArray(messages) &&
           messages.map((message) => {
             const isSentByMe = message.sender_id === profile?.business_id;
             return (
@@ -91,43 +115,46 @@ const ConversationMessageDisplay = () => {
                 }`}
               >
                 <div
-                  className={`p-3 rounded-lg max-w-lg ${
+                  className={`p-3 rounded-lg max-w-[80%] ${
                     isSentByMe
                       ? "bg-blue-500 text-white"
                       : "bg-gray-200 text-black"
                   }`}
                 >
-                  <div className="font-semibold">
+                  <div className="font-semibold text-sm">
                     {isSentByMe ? "Me" : message.sender_name}
                   </div>
-                  <div className="mb-2">{message.content}</div>
-                  <div className="text-xs text-gray-400">
-                    {new Date(message.createdAt).toLocaleString()} |{" "}
-                    {message.delivered ? "Delivered" : "Not Delivered"} |{" "}
+                  <div className="mb-2 break-words">{message.content}</div>
+                  <div className="text-xs opacity-75">
+                    {new Date(message.createdAt).toLocaleString()} •{" "}
+                    {message.delivered ? "Delivered" : "Sending"} •{" "}
                     {message.read ? "Read" : "Unread"}
                   </div>
                 </div>
               </div>
             );
           })}
-
-        {!messages && <h1>Loading messages...</h1>}
+        <div ref={messagesEndRef} />
       </div>
 
-      <div className="flex p-4 border-t border-gray-300 bg-white w-full">
-        <Input
-          type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type a message..."
-          className="flex-1 w-2/3 border border-gray-300 rounded-lg mr-4"
-        />
-        <button
-          onClick={handleSendMessage}
-          className="px-4 py-2 bg-blue-500 text-white w-1/3 rounded-lg hover:bg-blue-600"
-        >
-          Send
-        </button>
+      {/* Message Input */}
+      <div className="border-t bg-white p-4">
+        <div className="flex gap-2">
+          <Input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+            placeholder="Type a message..."
+            className="flex-1"
+          />
+          <button
+            onClick={handleSendMessage}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 whitespace-nowrap"
+          >
+            Send
+          </button>
+        </div>
       </div>
     </div>
   );

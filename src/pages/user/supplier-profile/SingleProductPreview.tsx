@@ -3,7 +3,7 @@ import { useState } from "react";
 import {
   IProduct,
   getAllProductCategories,
-  getOneProduct,
+  getOneProductByUser,
 } from "@/service/apis/product-services";
 import { useNavigate, useParams } from "react-router-dom";
 import { AxiosResponse, HttpStatusCode } from "axios";
@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import ProductAnalytics from "./ProductAnalytics";
 import ProductSellsAndInformation from "./ProductSellsAndInformation";
 import { Button } from "@/components/ui/button";
+import { getAllCurrencies } from "@/service/apis/countries-services";
 
 const SinglePreviewProduct = () => {
   const navigate = useNavigate();
@@ -40,6 +41,16 @@ const SinglePreviewProduct = () => {
     },
   });
 
+  const { data: currencies, isSuccess: isCurrenciesSuccess } = useQuery({
+    queryKey: ["currencies"],
+    queryFn: async () => {
+      const res = await getAllCurrencies();
+      if (res.status === HttpStatusCode.Ok) {
+        return res.data.data as { currency: string; currency_id: string }[];
+      }
+    },
+  });
+
   // Fetch the single product based on ID
   const {
     data: product,
@@ -48,11 +59,10 @@ const SinglePreviewProduct = () => {
     isError: isProductError,
     error: productError,
   } = useQuery({
-    queryKey: ["product", id],
+    queryKey: ["userProduct", id],
     queryFn: async () => {
-      const response: AxiosResponse<{ data: IProduct }> = await getOneProduct(
-        id || ""
-      );
+      const response: AxiosResponse<{ data: IProduct }> =
+        await getOneProductByUser(id || "");
       if (response.status === HttpStatusCode.Ok) {
         return response.data.data;
       }
@@ -68,7 +78,7 @@ const SinglePreviewProduct = () => {
       </div>
     );
   }
-  console.log({product})
+  console.log({ product });
 
   return (
     <div className="my-20 w-full space-y-20">
@@ -97,7 +107,11 @@ const SinglePreviewProduct = () => {
               <p className="font-semibold text-2xl">{product?.name}</p>
               <p className="flex items-center gap-2">
                 <span className="text-xl font-medium text-red-600">
-                  {product?.price_currency} {product?.product_price}
+                  {isCurrenciesSuccess &&
+                    currencies?.find(
+                      (c) => c.currency_id === product?.price_currency
+                    )?.currency}{" "}
+                  {product?.product_price}
                 </span>
               </p>
               <p className="text-sm font-light">{product?.description}</p>

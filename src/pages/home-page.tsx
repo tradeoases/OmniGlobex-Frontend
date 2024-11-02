@@ -17,10 +17,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllProducts, IProduct } from "@/service/apis/product-services";
 import RfqHomeSection from "@/components/RfqHomeSection";
 import PopularSales from "@/components/PopularSales";
+import { useSearchParams } from "react-router-dom";
 
 export default function HomePage() {
   const sectionRef = useRef<HTMLDivElement>(null);
-
+  const [searchParams] = useSearchParams()
   const {
     data: products,
     // isLoading: productIsLoading,
@@ -28,9 +29,9 @@ export default function HomePage() {
     // isError: productIsError,
     // error: productError,
   } = useQuery({
-    queryKey: ["products"],
+    queryKey: ["products", searchParams.get("currency")],
     queryFn: async () => {
-      const params = ``;
+      const params = `?currency=${searchParams.get("currency")?.toString()|| 'USD'}`;
 
       const response: AxiosResponse<any, any> = await getAllProducts(
         `${params}

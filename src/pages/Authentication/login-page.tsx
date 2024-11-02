@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -44,13 +45,15 @@ const LoginPage = () => {
       return () => clearTimeout(timeout);
     }
   }, [errorMessage]);
-
+  console.log({redirectPath, previousPath})
   useEffect(() => {
     if (userData) {
       const destination = userData.roles.includes("Supplier")
         ? "/supplier-dashboard"
         : "/buyer-dashboard";
+
       navigate(redirectPath || previousPath || destination);
+      
     }
   }, [userData, navigate, redirectPath, previousPath]);
 
