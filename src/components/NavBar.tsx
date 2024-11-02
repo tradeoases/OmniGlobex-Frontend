@@ -126,7 +126,7 @@ const NavBar = () => {
                     {userData.business_name}
                   </DropdownMenuItem>
 
-                  {userData.roles.includes("Buyer") && (
+                  {userData?.roles?.includes("Buyer") && (
                     <DropdownMenuItem
                       onClick={() => navigate(`/buyer-dashboard/myAccount/profile`)}
                     >
@@ -134,7 +134,7 @@ const NavBar = () => {
                     </DropdownMenuItem>
                   )}
 
-                  {userData.roles.includes("Supplier") && (
+                  {userData?.roles?.includes("Supplier") && (
                     <DropdownMenuItem
                       onClick={() => navigate(`/supplier-dashboard/supplier-profile`)}
                     >
