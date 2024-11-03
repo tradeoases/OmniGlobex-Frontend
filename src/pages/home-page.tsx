@@ -16,10 +16,12 @@ import { useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAllProducts, IProduct } from "@/service/apis/product-services";
 import RfqHomeSection from "@/components/RfqHomeSection";
+import PopularSales from "@/components/PopularSales";
+import { useSearchParams } from "react-router-dom";
 
 export default function HomePage() {
   const sectionRef = useRef<HTMLDivElement>(null);
-
+  const [searchParams] = useSearchParams()
   const {
     data: products,
     // isLoading: productIsLoading,
@@ -27,9 +29,9 @@ export default function HomePage() {
     // isError: productIsError,
     // error: productError,
   } = useQuery({
-    queryKey: ["products"],
+    queryKey: ["products", searchParams.get("currency")],
     queryFn: async () => {
-      const params = ``;
+      const params = `?currency=${searchParams.get("currency")?.toString()|| 'USD'}`;
 
       const response: AxiosResponse<any, any> = await getAllProducts(
         `${params}
@@ -52,25 +54,17 @@ export default function HomePage() {
   };
 
   return (
-    <main className=" mx-auto py-8 space-y-10">
+    <main className=" mx-8  py-8 space-y-10">
       <HeaderSection onScroll={() => scrollToSection()} />
       {/* <OurServiceSection sectionRef={sectionRef} /> */}
       <AdvertisementSection />
-      <GameWorldSection
-        products={products?.products}
-        name="Country showrooms"
-        route=""
-      />
+      <GameWorldSection name="Country showrooms" route="" />
       <ShopBrandSection />
       <AnnounceBanner />
       <RfqHomeSection />
       <TopSellingProducts products={products?.products} />
       <BestSeller />
-      <GameWorldSection
-        products={products?.products}
-        name="Popular Sales"
-        route=""
-      />
+      <PopularSales products={products?.products} />
       <NewArrivalSection products={products?.products} />
       {/* <PopularSales products={products?.products} /> */}
     </main>

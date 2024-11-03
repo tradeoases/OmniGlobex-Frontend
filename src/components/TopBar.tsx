@@ -99,7 +99,7 @@ const TopBar = () => {
                       {userData.business_name}
                     </DropdownMenuItem>
 
-                    {userData.roles.includes("Buyer") && (
+                    {userData?.roles?.includes("Buyer") && (
                       <DropdownMenuItem
                         onClick={() => navigate(`/buyer-dashboard/messages`)}
                       >
@@ -107,7 +107,7 @@ const TopBar = () => {
                       </DropdownMenuItem>
                     )}
 
-                    {userData.roles.includes("Supplier") && (
+                    {userData?.roles?.includes("Supplier") && (
                       <DropdownMenuItem
                         onClick={() => navigate(`/supplier-dashboard/messages`)}
                       >

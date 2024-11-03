@@ -37,6 +37,8 @@ const PopularSaleItem: React.FC<IProduct> = ({
   cover_image,
   product_id,
   name,
+  product_price,
+  price_currency,
 }) => {
   return (
     <Link
@@ -53,8 +55,10 @@ const PopularSaleItem: React.FC<IProduct> = ({
         <p className="line-clamp-1 text-xs font-bold">{name}</p>
         <p className="line-clamp-2 text-xs font-light">{description}</p>
         <p className="text-sm font-bold flex items-center gap-2">
-          <span className="line-through text-gray-400">$ 20.12</span>
-          <span className=" text-red-500">$18</span>
+          <span className=" text-red-500">
+            {price_currency} {product_price}
+          </span>
+          {/* <span className=" text-red-500">$18</span> */}
         </p>
       </div>
     </Link>

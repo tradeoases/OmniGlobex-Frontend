@@ -19,7 +19,7 @@ import { Textarea } from "../../../components/ui/textarea";
 import {
   createProduct,
   getAllProductCategories,
-  getOneProduct,
+  getOneProductByUser,
   updateProduct,
 } from "@/service/apis/product-services";
 import {
@@ -58,7 +58,7 @@ const ProductEntry = () => {
   const { data: product, isSuccess: isProductSuccess } = useQuery({
     queryKey: ["product", editId],
     queryFn: async () => {
-      const res = await getOneProduct(editId || "");
+      const res = await getOneProductByUser(editId || "");
       if (
         res.status === HttpStatusCode.Ok ||
         res.status === HttpStatusCode.Created
@@ -124,6 +124,7 @@ const ProductEntry = () => {
       form.setValue("description", product.description);
       form.setValue("priceCurrency", cur);
       form.setValue("productPrice", product.product_price);
+      form.setValue('units', product.units)
     }
   }, [isProductSuccess, product, form, currencies]);
   const [successMessage, setSuccessMessage] = useState("");
@@ -530,25 +531,25 @@ const ProductEntry = () => {
                 />
               </div>
             </div>
+            <div className="w-full">
+              <FormField
+                control={form.control}
+                name="tags"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormControl>
+                      <Input
+                        placeholder="Product Tags"
+                        className=""
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <div className=" grid-cols-1 md:grid-cols-2 grid gap-4 ">
-              <div className="w-full">
-                <FormField
-                  control={form.control}
-                  name="tags"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormControl>
-                        <Input
-                          placeholder="Product Tags"
-                          className=""
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
               {unitsLoading && <div>Loading units...</div>}
               {unitsIsError && (
                 <div>
@@ -596,6 +597,25 @@ const ProductEntry = () => {
                   />
                 </div>
               )}
+              <div className="w-full">
+                <FormField
+                  control={form.control}
+                  name="units"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormControl>
+                        <Input
+                          placeholder="Quantity"
+                          type="number"
+                          className=""
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
             <MultipleImageUpload images={images} setImages={setImages} />
 

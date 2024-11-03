@@ -63,10 +63,11 @@ const SingleProduct = () => {
     isError: isProductError,
     error: productError,
   } = useQuery({
-    queryKey: ["product", product_id],
+    queryKey: ["product", product_id, searchParams.get("currency")],
     queryFn: async () => {
       const response: AxiosResponse<{ data: IProduct }> = await getOneProduct(
-        product_id || ""
+        product_id || "",
+        `currency=${searchParams.get("currency")?.toString() || 'USD'}`
       );
       if (response.status === HttpStatusCode.Ok) {
         return response.data.data;
@@ -77,21 +78,25 @@ const SingleProduct = () => {
   console.log({ product });
   const navigate = useNavigate();
   const handleStartConversation = async (id: string, product_id: string) => {
-    const res = await createConversation({
-      id,
-      type: "DIRECT",
-    });
-    if (
-      res.status === HttpStatusCode.Created ||
-      res.status === HttpStatusCode.Ok
-    ) {
-      const r = res.data.data;
-      console.log({ r });
-      navigate(`/buyer-dashboard/messages/${r.id}`, {
-        state: {
-          url: `https://www.omniglobex.com/single-product/?product_id=${product_id}`,
-        },
+    try {
+      const res = await createConversation({
+        id,
+        type: "DIRECT",
       });
+      if (
+        res.status === HttpStatusCode.Created ||
+        res.status === HttpStatusCode.Ok
+      ) {
+        const r = res.data.data;
+
+        navigate(`/buyer-dashboard/messages/${r.id}`, {
+          state: {
+            url: `https://www.omniglobex.com/single-product/?product_id=${product_id}`,
+          },
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
