@@ -45,7 +45,6 @@ const LoginPage = () => {
       return () => clearTimeout(timeout);
     }
   }, [errorMessage]);
-  console.log({redirectPath, previousPath})
   useEffect(() => {
     if (userData) {
       const destination = userData.roles.includes("Supplier")
