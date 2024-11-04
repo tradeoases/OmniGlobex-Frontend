@@ -4,7 +4,8 @@ import { useRecoilValue } from "recoil";
 import { TiArrowLeftThick } from "react-icons/ti";
 import { userStore } from "@/store/user-store";
 import { Input } from "../ui/input";
-import socket from "@/service/socketmessaging";
+import { Alert, AlertDescription } from "../ui/alert";
+import socketService from "@/service/socketmessaging";
 
 interface IMessages {
   message_id: string;
@@ -29,13 +30,21 @@ const ConversationMessageDisplay = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const [socketError, setSocketError] = useState<string | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
   const handleSendMessage = async () => {
     try {
-      if (convId && message.trim()) {
+      const socket = socketService.initializeSocket();
+      socketService.subscribeToErrors((errorMessage) => {
+        setSocketError(errorMessage || null);
+        setIsConnected(!errorMessage);
+      });
+      if (socket && convId && message.trim()) {
         socket.emit("message", { conversation_id: convId, message });
         setMessage("");
       }
@@ -53,9 +62,41 @@ const ConversationMessageDisplay = () => {
   }, [state?.url]);
 
   useEffect(() => {
-    if (convId) {
-      socket.emit("joinConversation", convId);
+    // if (convId) {
+    //   socket.emit("joinConversation", convId);
 
+    //   socket.emit("getMessages", convId);
+
+    //   socket.on("allMessages", (data) => {
+    //     setMessages(data);
+    //   });
+
+    //   const handleNewMessage = (message: IMessages) => {
+    //     setMessages((prevMessages) => [...(prevMessages || []), message]);
+    //   };
+
+    //   socket.on("authError", (data) => {
+    //     console.log({ data });
+    //   });
+
+    //   socket.on("newMessage", handleNewMessage);
+
+    //   return () => {
+    //     socket.emit("leaveRoom", convId);
+    //     socket.off("newMessage", handleNewMessage);
+    //   };
+    // }
+
+    socketService.subscribeToErrors((errorMessage) => {
+      setSocketError(errorMessage || null);
+      setIsConnected(!errorMessage);
+    });
+
+    // Initialize socket
+    const socket = socketService.initializeSocket();
+
+    if (socket && convId) {
+      socket.emit("joinConversation", convId);
       socket.emit("getMessages", convId);
 
       socket.on("allMessages", (data) => {
@@ -66,18 +107,19 @@ const ConversationMessageDisplay = () => {
         setMessages((prevMessages) => [...(prevMessages || []), message]);
       };
 
-      socket.on("authError", (data) => {
-        console.log({ data });
-      });
-
       socket.on("newMessage", handleNewMessage);
 
       return () => {
-        socket.emit("leaveRoom", convId);
         socket.off("newMessage", handleNewMessage);
+        socket.off("allMessages");
+        socketService.unsubscribeFromErrors(setSocketError);
       };
     }
   }, [convId]);
+
+  const handleManualReconnect = () => {
+    socketService.reconnect();
+  };
 
   return (
     <div className="flex flex-col h-full">
@@ -92,6 +134,22 @@ const ConversationMessageDisplay = () => {
 
       {/* Messages Container */}
       <div className="flex-1 overflow-y-auto p-4">
+        {socketError && (
+          <Alert variant="destructive" className="mb-4">
+            <AlertDescription>
+              {socketError}
+              {!isConnected && (
+                <button
+                  onClick={handleManualReconnect}
+                  className="ml-2 underline"
+                >
+                  Try reconnecting now
+                </button>
+              )}
+            </AlertDescription>
+          </Alert>
+        )}
+
         {!messages && (
           <div className="h-full flex items-center justify-center">
             <h1>Loading messages...</h1>
