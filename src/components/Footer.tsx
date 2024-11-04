@@ -2,126 +2,153 @@ import DiscountBanner from "./DiscountBanner";
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa6";
 import { Logo } from "./logo";
 import { Link } from "react-router-dom";
+import { useScrollToTop } from '../hooks/useScrollToTop';
 
 const Footer = () => {
+  useScrollToTop();
+
+  const handleLinkClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <div className="w-full bg-gray-700">
-      {/* Discount Banner */}
+    <footer className="w-full bg-gray-800">
       <DiscountBanner />
-      {/* "Back to top" Button */}
-      <div className="flex justify-center items-center">
-        <span
-          className="bg-gray-600 w-full text-center cursor-pointer text-white px-4 py-4 hover:bg-gray-500 shadow-md"
+      
+      <div className="w-full">
+        <button
+          className="w-full bg-gray-700 text-gray-200 py-4 hover:bg-gray-600 transition-all duration-300 font-medium"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
           Back to top
-        </span>
+        </button>
       </div>
-      {/* Logo Section */}
-      <div className="flex items-center justify-center h-32 lg:h-40">
+
+      <div className="flex items-center justify-center h-24 lg:h-32 my-6">
         <Logo />
       </div>
 
-      {/* Main Footer Content */}
-      <div className="w-10/12 xl:w-8/12 mx-auto text-base">
-        <div className="border-t border-b py-14 grid grid-cols-1 lg:grid-cols-3 gap-10">
-          {/* Company Section */}
-          <div className="space-y-5">
-            <h3 className="text-lg font-semibold text-gray-100">Company</h3>
-            <div className="space-y-3 text-gray-500">
-              <Link
-                to="about"
-                className="hover:text-main transition duration-300"
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 py-12 border-t border-b border-gray-600">
+          <div className="space-y-6">
+            <h3 className="text-xl font-bold text-gray-100">Company</h3>
+            <nav className="flex flex-col space-y-4 text-gray-400">
+              <Link 
+                to="about" 
+                onClick={handleLinkClick}
+                className="hover:text-main hover:translate-x-2 transition-all duration-300"
               >
-                <p className="pb-2">About Us</p>
+                About Us
               </Link>
-              <Link
-                to="contact"
-                className="hover:text-main transition duration-300"
+              <Link 
+                to="contact" 
+                onClick={handleLinkClick}
+                className="hover:text-main hover:translate-x-2 transition-all duration-300"
               >
-                <p className="pb-2">Contact Us</p>
+                Contact Us
               </Link>
-              <Link to="#" className="hover:text-main transition duration-300">
-                <p className="pb-2">Careers</p>
+              <Link 
+                to="#" 
+                onClick={handleLinkClick}
+                className="hover:text-main hover:translate-x-2 transition-all duration-300"
+              >
+                Careers
               </Link>
-              <Link to="#" className="hover:text-main transition duration-300">
-                <p>Partners</p>
+              <Link 
+                to="#" 
+                onClick={handleLinkClick}
+                className="hover:text-main hover:translate-x-2 transition-all duration-300"
+              >
+                Partners
               </Link>
-            </div>
+            </nav>
           </div>
 
-          {/* Legal Section */}
-          <div className="space-y-5">
-            <h3 className="text-lg font-semibold text-gray-100">Legal</h3>
-            <div className="space-y-3 text-gray-500">
-              <Link
-                to="terms-condition"
-                className="hover:text-main transition duration-300"
+          <div className="space-y-6">
+            <h3 className="text-xl font-bold text-gray-100">Legal</h3>
+            <nav className="flex flex-col space-y-4 text-gray-400">
+              <Link 
+                to="terms-condition" 
+                onClick={handleLinkClick}
+                className="hover:text-main hover:translate-x-2 transition-all duration-300"
               >
-                <p className="pb-2">Terms & Conditions</p>
+                Terms & Conditions
               </Link>
-              <Link
-                to="privacy-policy"
-                className="hover:text-main transition duration-300"
+              <Link 
+                to="privacy-policy" 
+                onClick={handleLinkClick}
+                className="hover:text-main hover:translate-x-2 transition-all duration-300"
               >
-                <p className="pb-2">Privacy Policy</p>
+                Privacy Policy
               </Link>
-              <Link
-                to="/cookie-policy"
-                className="hover:text-main transition duration-300"
+              <Link 
+                to="/cookie-policy" 
+                onClick={handleLinkClick}
+                className="hover:text-main hover:translate-x-2 transition-all duration-300"
               >
-                <p>Cookie Policy</p>
+                Cookie Policy
               </Link>
-            </div>
+            </nav>
           </div>
 
-          {/* Terms Section */}
-          <div className="space-y-5">
-            <h3 className="text-lg font-semibold text-gray-100">Terms</h3>
-            <div className="space-y-3 text-gray-500">
-              <Link
-                to="track-order"
-                className="hover:text-main transition duration-300"
+          <div className="space-y-6">
+            <h3 className="text-xl font-bold text-gray-100">Terms</h3>
+            <nav className="flex flex-col space-y-4 text-gray-400">
+              <Link 
+                to="track-order" 
+                onClick={handleLinkClick}
+                className="hover:text-main hover:translate-x-2 transition-all duration-300"
               >
-                <p className="pb-2">Tracking Order</p>
+                Tracking Order
               </Link>
-              <Link
-                to="signup"
-                className="hover:text-main transition duration-300"
+              <Link 
+                to="signup" 
+                onClick={handleLinkClick}
+                className="hover:text-main hover:translate-x-2 transition-all duration-300"
               >
-                <p className="pb-2">Become Seller</p>
+                Become Seller
               </Link>
-              <Link to="/" className="hover:text-main transition duration-300">
-                <p className="pb-2">Best Products</p>
-              </Link>
-              <Link
-                to="blogs"
-                className="hover:text-main transition duration-300"
+              <Link 
+                to="/" 
+                onClick={handleLinkClick}
+                className="hover:text-main hover:translate-x-2 transition-all duration-300"
               >
-                <p className="pb-2">Blog</p>
+                Best Products
               </Link>
-              <Link
-                to="support"
-                className="hover:text-main transition duration-300"
+              <Link 
+                to="blogs" 
+                onClick={handleLinkClick}
+                className="hover:text-main hover:translate-x-2 transition-all duration-300"
               >
-                <p className="pb-2">Support</p>
+                Blog
               </Link>
-              <Link
-                to="faq"
-                className="hover:text-main transition duration-300"
+              <Link 
+                to="contact" 
+                onClick={handleLinkClick}
+                className="hover:text-main hover:translate-x-2 transition-all duration-300"
               >
-                <p className="pb-2"> FAQ</p>
+                Support
               </Link>
-            </div>
+              <Link 
+                to="faq" 
+                onClick={handleLinkClick}
+                className="hover:text-main hover:translate-x-2 transition-all duration-300"
+              >
+                FAQ
+              </Link>
+            </nav>
           </div>
         </div>
 
-        {/* Footer Bottom */}
-        <div className="py-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Social Media Icons */}
-            <div className="flex items-center gap-4 text-2xl text-gray-500">
-              <Link to="#" target="_blank" rel="noopener noreferrer">
+        <div className="py-8">
+          <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-6 text-2xl text-gray-400">
+              <Link 
+                to="#" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:scale-110 transition-transform duration-300"
+              >
                 <FaInstagram className="hover:text-pink-500 transition duration-300" />
               </Link>
               <Link to="#" target="_blank" rel="noopener noreferrer">
@@ -132,20 +159,17 @@ const Footer = () => {
               </Link>
             </div>
 
-            {/* Copyright */}
-            <p className="text-base text-gray-500 mt-4 md:mt-0">
+            <p className="text-gray-400">
               &copy; {new Date().getFullYear()}{" "}
-              <span className="text-sm xl:text-sm font-semibold text-main">
-                Omni
-                <span className="text-gray-500">
-                  Globex . All rights reserved.
-                </span>
+              <span className="font-medium">
+                Omni<span className="text-main">Globex</span>
               </span>
+              <span className="text-gray-500"> · All rights reserved</span>
             </p>
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 
