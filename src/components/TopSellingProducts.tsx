@@ -11,7 +11,7 @@ const TopSellingProducts: React.FC<Props> = ({ products }) => {
     <div className="w-full space-y-2">
       <div className="p-2 pb-3 bg-slate-700">
         <SectionHeader
-          name="Top Selling Products"
+          name="Featured Products"
           classList="text-white"
           view={true}
           route=""
