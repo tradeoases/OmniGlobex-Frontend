@@ -262,20 +262,6 @@ const ConversationDisplay = () => {
   const [isConnected, setIsConnected] = useState(false);
 
   // Memoize conversation update handlers
-  const handleNewMessage = useCallback((updatedConversation: IConversation) => {
-    setConversations((prevConversations) => {
-      if (!prevConversations) return null;
-      return prevConversations
-        .map((conv) =>
-          conv.id === updatedConversation.id ? updatedConversation : conv
-        )
-        .sort(
-          (a, b) =>
-            new Date(b.message_sent_at).getTime() -
-            new Date(a.message_sent_at).getTime()
-        );
-    });
-  }, []);
 
   const handleTypingIndicator = useCallback(
     (data: TypingIndicatorData, isTyping: boolean) => {
@@ -333,7 +319,24 @@ const ConversationDisplay = () => {
       });
     });
 
-    socket.on("newConversationMessage", handleNewMessage);
+    socket.on(
+      "newConversationMessage",
+      (updatedConversation: IConversation) => {
+        console.log(updatedConversation)
+        setConversations((prevConversations) => {
+          if (!prevConversations) return null;
+          return prevConversations
+            .map((conv) =>
+              conv.id === updatedConversation.id ? updatedConversation : conv
+            )
+            .sort(
+              (a, b) =>
+                new Date(b.message_sent_at).getTime() -
+                new Date(a.message_sent_at).getTime()
+            );
+        });
+      }
+    );
     socket.on("userTyping", (data: TypingIndicatorData) =>
       handleTypingIndicator(data, true)
     );
@@ -362,6 +365,16 @@ const ConversationDisplay = () => {
 
   const handleManualReconnect = () => {
     socketService.reconnect();
+  };
+
+  const markAsOpened = (id: string) => {
+    setConversations((prev) => {
+      if (!prev) return null;
+      return prev.map((conv) => {
+        if (conv.id !== id) return conv;
+        return { ...conv, unread_count: "0" };
+      });
+    });
   };
 
   return (
@@ -402,7 +415,11 @@ const ConversationDisplay = () => {
         {conversations && conversations.length > 0 && (
           <div className="flex flex-col gap-2">
             {conversations.map((conversation) => (
-              <ConversationCard key={conversation.id} {...conversation} />
+              <ConversationCard
+                reader={markAsOpened}
+                key={conversation.id}
+                data={conversation}
+              />
             ))}
           </div>
         )}

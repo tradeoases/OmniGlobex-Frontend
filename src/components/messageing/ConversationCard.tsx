@@ -64,14 +64,21 @@ export interface IConversation {
 }
 
 const ConversationCard = ({
-  conversation_name,
-  latest_message,
-  message_sent_at,
-  id,
-  unread_count,
-  isTyping,
-}: IConversation) => {
+  data,
+  reader,
+}: {
+  data: IConversation;
+  reader: (id: string) => void;
+}) => {
   // Format the timestamp
+  const {
+    conversation_name,
+    latest_message,
+    message_sent_at,
+    id,
+    unread_count,
+    isTyping,
+  } = data;
   const formatTimestamp = (timestamp: string) => {
     if (!timestamp) return "";
 
@@ -94,8 +101,13 @@ const ConversationCard = ({
 
   return (
     <Card
-      className="p-4 hover:bg-gray-50 cursor-pointer transition-colors"
-      onClick={() => navigate(`${id}`)}
+      className={`p-4 hover:bg-gray-50 cursor-pointer transition-colors ${
+        parseInt(unread_count) > 0 ? "border-blue-500 border-4" : ""
+      }`}
+      onClick={() => {
+        reader(id);
+        navigate(`${id}`);
+      }}
     >
       <div className="flex justify-between items-start gap-4">
         <div className="flex-1 min-w-0">
