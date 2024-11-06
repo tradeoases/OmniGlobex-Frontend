@@ -282,14 +282,13 @@ const ConversationDisplay = () => {
 
   useEffect(() => {
     socketService.subscribeToErrors((errorMessage) => {
-      setSocketError(errorMessage || null);
+      setSocketError(JSON.stringify(errorMessage) || null);
       setIsConnected(!errorMessage);
     });
 
     const socket = socketService.initializeSocket();
     if (!socket) return;
 
-    // Error handling
     socket.on("connect_error", (err) => {
       console.error("Connection Error:", err.message);
       setSocketError(`Connection error: ${err.message}`);
@@ -299,13 +298,10 @@ const ConversationDisplay = () => {
     socket.on("connect", () => {
       setIsConnected(true);
       setSocketError(null);
-      // Re-fetch conversations on reconnect
       socket.emit("getConversations");
     });
 
-    // Conversation handlers
     socket.on("conversations", (data: IConversation[]) => {
-      // Sort conversations by latest message
       const sortedConversations = [...data].sort(
         (a, b) =>
           new Date(b.message_sent_at).getTime() -
@@ -313,7 +309,6 @@ const ConversationDisplay = () => {
       );
       setConversations(sortedConversations);
 
-      // Join each conversation room
       sortedConversations.forEach((conversation) => {
         socket.emit("joinConversation", conversation.id);
       });

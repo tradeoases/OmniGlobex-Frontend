@@ -182,7 +182,7 @@ const SuppliersDashboard = () => {
           </div>
 
           {/* Adjust content spacing below header */}
-          <div className="pt-[60px] lg:pt-0"> {/* Fixed height to match header */}
+          <div className="pt-[60px] lg:pt-0 w-full"> {/* Fixed height to match header */}
             <div className="lg:p-8 p-4">
               <ProtectedRoute
                 isAuthenticated={!!profile}
