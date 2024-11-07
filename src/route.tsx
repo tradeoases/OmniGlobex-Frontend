@@ -157,7 +157,9 @@ const RoutesConfig = () => {
           <Route path="orders" element={<UnderConstruction />} />
           <Route path="other-info" element={<UnderConstruction />} />
         </Route>
-        <Route path="store-front-preview" element={<StoreFrontPreview />} />
+        <Route path="store-front-preview" element={<StoreFrontPreview />}>
+          <Route path="details/:id" element={<SinglePreviewProduct />} />
+        </Route>
         <Route path="ratings" element={<SupplierRatings />} />
         <Route path="security-settings" element={<SecuritySettings />} />
         <Route path="notifications" element={<SupplierNotifications />} />
