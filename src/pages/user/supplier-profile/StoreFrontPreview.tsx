@@ -32,8 +32,6 @@ const StoreFrontPreview = () => {
       }
     },
   });
-  console.log({ user });
-  console.log("user", JSON.stringify(user));
 
   const { data: products, isSuccess: isProductSuccess } = useQuery({
     queryKey: ["products"],
@@ -85,7 +83,7 @@ const StoreFrontPreview = () => {
 
       {isUserSuccess && user && (
         <div className="pb-16">
-          <div className="relative h-[300px] w-full overflow-hidden">
+          <div className="relative h-[96] w-full overflow-hidden">
             <img
               className="w-60 h-60 object-cover transform hover:scale-105 transition-transform duration-700"
               src={user.avatar_url || "/default-banner.jpg"}
