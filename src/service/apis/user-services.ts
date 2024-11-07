@@ -13,6 +13,8 @@ export interface IProfile {
   profile: ProfileAttributes;
   avatar_url?: string;
   avatar_id?: string;
+  business_name?: string;
+  email?: string;
 }
 
 export interface ProfileAttributes {
@@ -28,6 +30,14 @@ export interface ProfileAttributes {
   status?: number;
   createdAt?: Date;
   updatedAt?: Date;
+  description?: string;
+  number_of_employees?: number;
+  years_in_business?: number;
+  slogan?: string;
+  year_started?: number;
+  business_verified?: boolean;
+ 
+  
 }
 
 // export interface ProfileImagesAttributes {
