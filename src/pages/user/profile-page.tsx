@@ -226,8 +226,11 @@ const SuppliersDashboard = () => {
           </div>
 
           {/* Adjust content spacing below header */}
+
           <div className="pt-[56px] lg:pt-0">
             <div className="p-3 sm:p-4 md:p-6 lg:p-8">
+
+         
               <ProtectedRoute
                 isAuthenticated={!!profile}
                 userRole={profile?.roles || []}
