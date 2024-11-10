@@ -32,12 +32,11 @@ const BuyerDashboard = () => {
       <BuyersNavBar onMenuClick={toggleSidebar} />
 
       <div className="flex h-[calc(100vh-64px)] pt-16">
-        {/* Desktop Sidebar */}
+       
         <aside className="hidden lg:block w-64 xl:w-[280px] flex-shrink-0">
           <SideBar isOpen={false} toggleSidebar={toggleSidebar} />
         </aside>
 
-        {/* Mobile Sidebar */}
         {isSidebarOpen && (
           <div
             className="lg:hidden fixed inset-0 bg-black/50 z-40"
@@ -51,8 +50,6 @@ const BuyerDashboard = () => {
             </div>
           </div>
         )}
-
-        {/* Main Content */}
         <main className="pt-[60px] lg:pt-0 w-full h-[calc(100vh-10)]">
           <div
             className={`
