@@ -2,8 +2,25 @@ import { useRecoilValue } from "recoil";
 import { userStore } from "@/store/user-store";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getUserInfo } from "@/service/apis/user-services";
+import { IProfile } from "@/service/apis/user-services";
+import { HttpStatusCode } from "axios";
 
 const SupplierProfile = () => {
+  const {
+    data: user,
+    isSuccess: isUserSuccess,
+    refetch: refetchUser,
+  } = useQuery({
+    queryKey: ["personal"],
+    queryFn: async () => {
+      const res = await getUserInfo();
+      if (res.status === HttpStatusCode.Ok) {
+        return res.data.data as IProfile;
+      }
+    },
+  });
   const profile = useRecoilValue(userStore);
 
   return (
@@ -13,7 +30,9 @@ const SupplierProfile = () => {
         <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">Company Profile</h2>
+              <h2 className="text-2xl font-bold text-gray-900">
+                Company Profile
+              </h2>
               <p className="text-gray-500 text-sm mt-1">
                 View and manage your company information
               </p>
@@ -46,16 +65,30 @@ const SupplierProfile = () => {
           <div className="p-6 border-b border-gray-200">
             <div className="flex items-center gap-4 mb-6">
               {/* Company Logo/Avatar */}
-              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center">
+              <div className="w-20 h-20 ring-4 ring-white bg-white shadow-2xl rounded-full flex items-center justify-center">
                 <span className="text-2xl font-bold text-gray-400">
-                  {profile?.business_name?.[0]?.toUpperCase()}
+                  {profile?.profileImages?.find(
+                    (pi) => pi.image_for === "PROFILE"
+                  )?.image_url && (
+                    <img
+                      src={
+                        profile.profileImages.find(
+                          (pi) => pi.image_for === "PROFILE"
+                        )?.image_url
+                      }
+                      alt="Profile"
+                      className="w-full h-full rounded-full object-cover"
+                    />
+                  )}
                 </span>
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-gray-900">
                   {profile?.business_name}
                 </h3>
-                <p className="text-gray-500">{profile?.profile.business_type}</p>
+                <p className="text-gray-500">
+                  {profile?.profile.business_type}
+                </p>
               </div>
             </div>
           </div>
@@ -70,19 +103,25 @@ const SupplierProfile = () => {
                 </h4>
                 <dl className="space-y-4">
                   <div className="flex flex-col">
-                    <dt className="text-sm font-medium text-gray-500">Location</dt>
+                    <dt className="text-sm font-medium text-gray-500">
+                      Location
+                    </dt>
                     <dd className="mt-1 text-sm text-gray-900">
-                      {profile?.profile.address || 'Not specified'}
+                      {profile?.profile.address || "Not specified"}
                     </dd>
                   </div>
                   <div className="flex flex-col">
                     <dt className="text-sm font-medium text-gray-500">
-                      Years in Business
+                      Year started
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900">
-                      {profile?.profile.year_started ? 
-                        moment().from(moment(profile.profile.year_started), true) : 
-                        'Not specified'}
+                      {(() => {
+                        return user?.profile.year_started &&
+                          typeof user.profile.year_started === "string"
+                          ? new Date(user.profile.year_started).getFullYear() ||
+                              "N/A"
+                          : "N/A";
+                      })()}
                     </dd>
                   </div>
                   <div className="flex flex-col">
@@ -90,7 +129,7 @@ const SupplierProfile = () => {
                       Number of Employees
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900">
-                      {profile?.profile.number_of_employees || 'Not specified'}
+                      {user?.profile.number_of_employees || 0}
                     </dd>
                   </div>
                 </dl>
@@ -105,13 +144,13 @@ const SupplierProfile = () => {
                   <div className="flex flex-col">
                     <dt className="text-sm font-medium text-gray-500">Email</dt>
                     <dd className="mt-1 text-sm text-gray-900">
-                      {profile?.email || 'Not specified'}
+                      {profile?.email || "Not specified"}
                     </dd>
                   </div>
                   <div className="flex flex-col">
                     <dt className="text-sm font-medium text-gray-500">Phone</dt>
                     <dd className="mt-1 text-sm text-gray-900">
-                      {profile?.profile.phonenumber || 'Not specified'}
+                      {profile?.profile.phonenumber || "Not specified"}
                     </dd>
                   </div>
                   {/* <div className="flex flex-col">
