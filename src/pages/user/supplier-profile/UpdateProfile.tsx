@@ -30,6 +30,7 @@ import { getAllCountries, ICountry } from "@/service/apis/countries-services";
 import { AxiosResponse, HttpStatusCode } from "axios";
 import { getUserInfo, updateProfile } from "@/service/apis/user-services";
 import { IUser } from "@/store/user-store";
+import { IUpdateProfileData } from "@/store/user-store";
 import { useNavigate } from "react-router-dom";
 
 const UpdateProfileForm = () => {
@@ -137,7 +138,7 @@ const UpdateProfileForm = () => {
       }
     }
     console.log({ data });
-    const res = await updateProfile(data);
+    const res = await updateProfile(data as IUpdateProfileData);
     if (
       res.status === HttpStatusCode.Ok ||
       res.status === HttpStatusCode.Accepted
@@ -363,7 +364,9 @@ const UpdateProfileForm = () => {
                                 type="number"
                                 placeholder="Number of Employees"
                                 {...field}
-                                onChange={(e) => field.onChange(Number(e.target.value) || 0)}
+                                onChange={(e) =>
+                                  field.onChange(Number(e.target.value) || 0)
+                                }
                               />
                             </FormControl>
                             <FormMessage />

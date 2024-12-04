@@ -87,7 +87,7 @@ export type TActiveMenu =
 export type TActivePath =
   | "sales-performance"
   | "supplier-profile"
-  | "consortiums"
+  | "/consortiums"
   | "products"
   | "store-front-preview"
   | "/buyer-dashboard"
@@ -122,7 +122,7 @@ export const dashboardNavs: IDashboardNav[] = [
   {
     icon: <MdReviews />,
     title: "Consortiums",
-    path: "consortiums",
+    path: "/consortiums",
   },
   { icon: <FaUser />, title: "Messages", path: "messages" },
   { icon: <IoBagHandle />, title: "Products", path: "products" },
