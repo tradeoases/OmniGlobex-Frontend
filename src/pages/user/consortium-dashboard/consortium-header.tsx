@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { MenuIcon, X } from "lucide-react";
+import { MenuIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -36,7 +36,7 @@ export function ConsortiumHeader() {
                     size="icon"
                     onClick={() => setIsOpen(false)}
                   >
-                    <X className="h-5 w-5" />
+                    {/* <X className="h-5 w-5" /> */}
                   </Button>
                 </div>
                 <ConsortiumMainNav />
@@ -46,7 +46,9 @@ export function ConsortiumHeader() {
         </div>
         <div className="flex w-full items-center gap-4">
           <Link to="/" className="flex items-center gap-2 font-semibold">
-            <span className="hidden font-bold md:inline-block"><Logo/></span>
+            <span className="hidden font-bold md:inline-block">
+              <Logo />
+            </span>
           </Link>
           <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -56,7 +58,7 @@ export function ConsortiumHeader() {
             </div>
             <Button variant="ghost" size="icon" className="rounded-full">
               <img
-                src="/placeholder.svg?height=32&width=32"
+                src="/suppliers/consortium-profile.png"
                 width={32}
                 height={32}
                 className="rounded-full"

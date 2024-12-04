@@ -63,6 +63,7 @@ export enum MessageText {
 export type TActiveMenu =
   | "Dashboard"
   | "Sales Performance"
+  | "Consortiums"
   | "Products"
   | "Start Buying Now"
   | "Storefront Preview"
@@ -86,6 +87,7 @@ export type TActiveMenu =
 export type TActivePath =
   | "sales-performance"
   | "supplier-profile"
+  | "consortiums"
   | "products"
   | "store-front-preview"
   | "/buyer-dashboard"
@@ -116,6 +118,11 @@ export const dashboardNavs: IDashboardNav[] = [
     icon: <MdReviews />,
     title: "Storefront Preview",
     path: "store-front-preview",
+  },
+  {
+    icon: <MdReviews />,
+    title: "Consortiums",
+    path: "consortiums",
   },
   { icon: <FaUser />, title: "Messages", path: "messages" },
   { icon: <IoBagHandle />, title: "Products", path: "products" },
