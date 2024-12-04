@@ -1,6 +1,5 @@
 import { useRecoilValue } from "recoil";
 import { userStore } from "@/store/user-store";
-import moment from "moment";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "@/service/apis/user-services";
@@ -10,8 +9,8 @@ import { HttpStatusCode } from "axios";
 const SupplierProfile = () => {
   const {
     data: user,
-    isSuccess: isUserSuccess,
-    refetch: refetchUser,
+    // isSuccess: isUserSuccess,
+    // refetch: refetchUser,
   } = useQuery({
     queryKey: ["personal"],
     queryFn: async () => {
