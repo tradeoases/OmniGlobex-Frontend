@@ -12,12 +12,16 @@ import {
 } from "@/service/apis/product-services";
 import { StoreFrontCardProducts } from "./StoreFrontCardProducts";
 import { Outlet } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userStore } from "@/store/user-store";
 
 const StoreFrontPreview = () => {
   const [previewMode] = useState<"edit" | "preview">("preview");
   const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
+  const [profile] = useRecoilState(userStore);
 
   const {
     data: user,
@@ -71,45 +75,45 @@ const StoreFrontPreview = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <div className="sticky top-0 mt-10 backdrop-blur-sm bg-white/80 border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold bg-gradient-to-r from-main to-yellow-500 bg-clip-text text-transparent">
-              Storefront Preview
-            </h2>
-          </div>
-        </div>
-      </div>
-
       {isUserSuccess && user && (
         <div className="pb-16">
-          <div className="relative h-[96] w-full overflow-hidden">
-            <img
-              className="w-60 h-60 object-cover transform hover:scale-105 transition-transform duration-700"
-              src={user.avatar_url || "/default-banner.jpg"}
-              alt={`${user.business_name || "Business"} Banner`}
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/30" />
-            <div className="absolute bottom-0 left-0 right-0 p-14 text-white">
-              <h1 className="text-5xl font-bold mb-4 animate-fade-in">
-                {user.business_name}
+          <div className="relative h-[96] w-full overflow-hidden rounded-lg shadow-lg">
+            {profile?.profileImages?.find((pi) => pi.image_for === "PROFILE")
+              ?.image_url && (
+              <img
+                src={profile.profileImages.find((pi) => pi.image_for === "COVER")?.image_url}
+                alt="Profile"
+                className="w-full h-60 rounded-lg object-cover transition-transform duration-300 hover:scale-105"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/30 rounded-lg" />
+            <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+              <h1 className="text-4xl font-bold mb-2 animate-fade-in">
+                {/* {user.business_name} */}
               </h1>
-              <p className="text-xl opacity-90">{user.profile.city}</p>
+              {/* <p className="text-lg opacity-90">{user.profile.city}</p>
               {user.profile.slogan && (
-                <p className="text-xl opacity-90 mt-3 italic">
+                <p className="text-lg opacity-90 mt-2 italic">
                   {user.profile.slogan}
                 </p>
-              )}
+              )} */}
             </div>
           </div>
 
           <div className="relative -mt-24 mb-8 px-8">
             <div className="h-48 w-48 rounded-full ring-4 ring-white overflow-hidden bg-white shadow-2xl hover:shadow-3xl transition-shadow duration-300">
-              <img
-                src={user.avatar_url || "/default-avatar.jpg"}
-                className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
-                alt="Profile"
-              />
+              {profile?.profileImages?.find((pi) => pi.image_for === "PROFILE")
+                ?.image_url && (
+                <img
+                  src={
+                    profile.profileImages.find(
+                      (pi) => pi.image_for === "PROFILE"
+                    )?.image_url
+                  }
+                  alt="Profile"
+                  className="w-full h-full rounded-full object-cover"
+                />
+              )}
             </div>
           </div>
 
@@ -136,11 +140,15 @@ const StoreFrontPreview = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
                 <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8 border border-gray-100">
                   <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent mb-2">
-                    {user.profile.year_started
-                      ? new Date().getFullYear() - user.profile.year_started
-                      : 0}
+                    {(() => {
+                      return user.profile.year_started &&
+                        typeof user.profile.year_started === "string"
+                        ? new Date(user.profile.year_started).getFullYear() ||
+                            "N/A"
+                        : "N/A";
+                    })()}
                   </div>
-                  <div className="text-sm text-gray-600">Years in Business</div>
+                  <div className="text-sm text-gray-600">Year started</div>
                 </div>
                 <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8 border border-gray-100">
                   <div className="text-4xl font-bold bg-gradient-to-r from-green-600 to-green-400 bg-clip-text text-transparent mb-2">

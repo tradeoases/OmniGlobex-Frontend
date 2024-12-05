@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import NotFoundPage from "./pages/staticpages/not-found-page";
 import HomePage from "./pages/home-page";
 import { AboutPage } from "./pages/about-us/about-page";
@@ -73,6 +73,7 @@ import SinglePreviewProduct from "./pages/user/supplier-profile/SingleProductPre
 import Users from "./pages/user/supplier-profile/Users";
 import ChangeBuyerPassword from "./pages/BuyersAuthentication/ChangeBuyerPassword";
 import BuyerRatings from "./pages/user/buyer-profile/BuyerRatings";
+import { ConsortiumDashboardLayout } from "./pages/user/consortium-dashboard/consortium-dashboard-layout";
 
 const RoutesConfig = () => {
   const [, setUserData] = useRecoilState<IUser | null>(userStore);
@@ -84,6 +85,16 @@ const RoutesConfig = () => {
     setUserData(profile);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Placeholder components for different routes
+  const Dashboard = () => <div>Dashboard Content</div>;
+  const Consortiums = () => <div>My Consortiums</div>;
+  const Storefront = () => <div>Consortium Storefront</div>;
+  const Messages = () => <div>Messages</div>;
+  const Services = () => <div>Service & Products</div>;
+  const Collaboration = () => <div>Collaboration Hub</div>;
+  const Partners = () => <div>Partners</div>;
+  const ConsortiumBlogs = () => <div>Blogs & Updates</div>;
   return (
     <Routes>
       <Route path="/">
@@ -134,7 +145,7 @@ const RoutesConfig = () => {
         <Route path="orders" element={<OrderTracking />} />
         <Route path="ratings" element={<BuyerRatings />} />
 
-        <Route path="settings" >
+        <Route path="settings">
           <Route path="change-password" element={<ChangeBuyerPassword />} />
           <Route path="security" element={<SecuritySettings />} />
 
@@ -180,6 +191,17 @@ const RoutesConfig = () => {
           <Route path=":convId" element={<ConversationMessageDisplay />} />
         </Route>
         <Route path="logout" element={<div>Unhandled</div>} />
+      </Route>
+      <Route path="" element={<ConsortiumDashboardLayout />}>
+        <Route index element={<Navigate to="/dashboard" replace />} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="consortiums" element={<Consortiums />} />
+        <Route path="storefront" element={<Storefront />} />
+        <Route path="messages" element={<Messages />} />
+        <Route path="services" element={<Services />} />
+        <Route path="collaboration" element={<Collaboration />} />
+        <Route path="partners" element={<Partners />} />
+        <Route path="consortium-blogs" element={<ConsortiumBlogs />} />
       </Route>
     </Routes>
   );

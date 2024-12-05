@@ -58,7 +58,7 @@ export const updateProfileSchema = z.object({
       country_id: z.string().optional(),
       slogan: z.string().optional(),
       business_type: z.string().optional(),
-      number_of_employees: z.string().optional(),
+      number_of_employees: z.number().optional(),
       year_started: z.string().optional(),
     })
     .optional(),

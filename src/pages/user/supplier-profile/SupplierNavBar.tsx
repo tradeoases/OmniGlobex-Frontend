@@ -25,6 +25,12 @@ const SupplierNavBar = () => {
             >
               Switch to Buyer
             </Link>
+            <Link
+              className="border  px-2 py-1 ml-6 rounded-full cursor-pointerbg-white text-main  border-main hover:bg-main hover:text-white transition duration-300 shadow-md hover:shadow-lg "
+              to="/consortiums"
+            >
+              Switch to Consortiums
+            </Link>
           </div>
           <div className="relative flex justify-end items-center">
             <SupplierDropDownProfile isOpen={isOpen} setIsOpen={setIsOpen} />
