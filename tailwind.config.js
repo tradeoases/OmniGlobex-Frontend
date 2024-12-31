@@ -61,6 +61,12 @@ module.exports = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      backgroundImage: {
+        "header-bg": "url('./assets/header-img-1.jpg')",
+        "header-bg-1": "url('./assets/header-img-2.jpg')",
+        "header-bg-2": "url('./assets/header-img-4.jpg')",
+        "download-cover": "url('./assets/download-app-cover.png')",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -77,5 +83,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require('tailwind-scrollbar')],
 };

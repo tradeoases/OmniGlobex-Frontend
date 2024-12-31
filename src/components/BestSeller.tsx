@@ -1,12 +1,14 @@
-import { SectionHeader } from "./GameWorldSection";
+import { bestSellers } from "@/data/data";
+import { BestSellerCard } from "./best-seller-card";
+import { SectionHeader } from "./section-header";
 
 const BestSeller = () => {
   return (
-    <div className="w-full space-y-3">
+    <div className="w-full space-y-6 bg-main p-8">
       <SectionHeader name="Best Saller" view={true} />
       <div className="grid grid-cols-2 md:grid-cols-3 gap-y-4 lg:grid-cols-6 gap-x-4">
         {bestSellers.map((saller, i) => (
-          <Card {...saller} key={i} />
+          <BestSellerCard {...saller} key={i} />
         ))}
       </div>
     </div>
@@ -14,27 +16,3 @@ const BestSeller = () => {
 };
 
 export default BestSeller;
-
-interface IBestSeller {
-  name: string;
-  image?: string;
-}
-const Card: React.FC<IBestSeller> = ({ name }) => {
-  return (
-    <div className="flex flex-col space-y-2 items-center">
-      <div className="w-40 h-40 md:w-40 md:h-40 lg:w-32 lg:h-32 bg-white rounded-full flex items-center justify-center font-extrabold">
-        some
-      </div>
-      <p className="text-base font-semibold">{name}</p>
-    </div>
-  );
-};
-
-const bestSellers: IBestSeller[] = [
-  { name: "Shopno BD", image: "" },
-  { name: "Eecoms Shop", image: "" },
-  { name: "Fusion X", image: "" },
-  { name: "Rekayi Rox", image: "" },
-  { name: "Habbriyi", image: "" },
-  { name: "Rayhans", image: "" },
-];

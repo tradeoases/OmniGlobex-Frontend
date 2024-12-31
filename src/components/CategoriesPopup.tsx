@@ -1,7 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { LuChevronRight } from "react-icons/lu";
-import { ICategory, categories } from "./Sidemenu";
+// import { ICategory } from "./Sidemenu";
 import { useEffect, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { AxiosResponse, HttpStatusCode } from "axios";
+import {
+  getAllProductCategories,
+  IProductCategory,
+} from "@/service/apis/product-services";
+import { LuChevronRight } from "react-icons/lu";
+import { NavLink, useSearchParams } from "react-router-dom";
 
 interface IAllCategory {
   onToggle: () => void;
@@ -19,9 +26,17 @@ export const CategoriesPopup: React.FC<IAllCategory> = ({
     }
   };
 
-  // const handleClickInside = () => {
-  //   onToggle();
-  // };
+  const { data: categories, isSuccess: categoriesSuccess } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const response: AxiosResponse<any, any> = await getAllProductCategories();
+
+      if (response.status === HttpStatusCode.Ok) {
+        return response.data.data as IProductCategory[];
+      }
+    },
+  });
 
   useEffect(() => {
     if (isOpen) {
@@ -36,7 +51,6 @@ export const CategoriesPopup: React.FC<IAllCategory> = ({
   }, [isOpen]);
 
   useEffect(() => {
-    // Add or remove animation classes based on isOpen state
     if (!isOpen) {
       catRef.current?.classList.add("closed");
     } else {
@@ -55,21 +69,35 @@ export const CategoriesPopup: React.FC<IAllCategory> = ({
         maxHeight: isOpen ? "1000px" : "0",
       }}
     >
-      {categories.map((cat, i) => (
-        <CategoryItem key={i} {...cat} />
-      ))}
+      {categoriesSuccess &&
+        categories?.map((cat) => (
+          <CategoryItem key={cat.category_id} {...cat} />
+        ))}
     </div>
   );
 };
 
-const CategoryItem: React.FC<ICategory> = ({ icon, name }) => {
+const CategoryItem = ({
+  name,
+  category_id,
+}: {
+  category_id: string;
+  name: string;
+}) => {
+  const [searchParams] = useSearchParams();
+
+  const updatedSearchParams = new URLSearchParams(searchParams.toString());
+  updatedSearchParams.set("category", category_id);
+
   return (
-    <div className="flex items-center justify-between px-6 py-3 border-t border-light bg-white hover:bg-main">
+    <NavLink
+      to={`/products?${updatedSearchParams.toString()}`}
+      className="flex items-center justify-between px-6 py-3 border-t border-light bg-white hover:bg-main"
+    >
       <div className="flex items-center gap-x-4">
-        <span className="text-lg text-gray-700">{icon}</span>
         <span className="line-clamp-1 font-thin">{name}</span>
       </div>
       <LuChevronRight className="text-base" />
-    </div>
+    </NavLink>
   );
 };

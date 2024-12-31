@@ -1,58 +1,33 @@
-
 import { LuChevronRight } from "react-icons/lu";
+import { Link } from "react-router-dom";
 
 const AnnounceBanner = () => {
   return (
-    <div className="w-full grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8 gap-x-0 space-y-8 lg:space-y-0">
-      <div className="w-full bg-gray-400 mx-auto space-y-4 pb-8">
-        <div className="py-8 w-10/12 mx-auto grid grid-cols-4 gap-x-8 ">
-          {times.map((time) => (
-            <TimeCircle {...time} key={time.name} />
-          ))}
-        </div>
-        <p className="w-10/12 mx-auto text-3xl font-bold">Woo! Flash Sale</p>
+    <div className="w-full bg-white">
+      <div className="max-w-7xl mx-auto p-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8 gap-x-0 space-y-8 lg:space-y-0">
+          <div className="w-full bg-black mx-auto p-8 space-y-6 rounded-lg transition-transform hover:scale-[1.02]">
+            <div className="space-y-2">
+              <p className="text-white text-4xl font-bold leading-tight">
+                Sales and Discounts
+              </p>
+              <p className="text-gray-400">Don't miss out on our special offers!</p>
+            </div>
 
-        <p className="w-10/12 mx-auto flex items-center">
-          <span className="text-base font-bold border-b border-main pr-4">
-            Shop Now{" "}
-          </span>
-          <LuChevronRight className="text-base" />
-        </p>
+            <Link
+              to="/products"
+              className="inline-flex items-center space-x-2 text-white bg-main px-6 py-3 rounded-lg hover:bg-main/90 transition-colors"
+            >
+              <span className="font-medium">Shop Now</span>
+              <LuChevronRight className="text-lg" />
+            </Link>
+          </div>
+
+          <div className="bg-black bg-download-cover bg-cover bg-center rounded-lg h-[300px] lg:h-auto shadow-lg transition-transform hover:scale-[1.02]"></div>
+        </div>
       </div>
-      <div className="bg-slate-400 p-8 h-40 lg:h-auto">1</div>
     </div>
   );
 };
 
 export default AnnounceBanner;
-
-interface ITimeCircle {
-  digit: number;
-  name: string;
-  color: "pink" | "blue" | "green";
-}
-const TimeCircle: React.FC<ITimeCircle> = ({ color, digit, name }) => {
-  return (
-    <div className="space-y-4">
-      <p
-        className={`w-14 h-14 lg:w-20 lg:h-20 bg-white rounded-full flex items-center justify-center text-3xl font-extrabold ${
-          color === "pink"
-            ? "text-pink-600"
-            : color === "green"
-            ? "text-green-600"
-            : "text-blue-600"
-        } `}
-      >
-        {digit}
-      </p>
-      <p className={`text-base font-bold text-center `}>{name}</p>
-    </div>
-  );
-};
-
-const times: ITimeCircle[] = [
-  { digit: 1, name: "Days", color: "pink" },
-  { digit: 0, name: "Hours", color: "blue" },
-  { digit: 12, name: "Minutes", color: "green" },
-  { digit: 8, name: "Seconds", color: "pink" },
-];
