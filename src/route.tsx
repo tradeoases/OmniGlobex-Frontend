@@ -195,7 +195,11 @@ const RoutesConfig = () => {
       <Route path="" element={<ConsortiumDashboardLayout />}>
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={<Dashboard />} />
-        <Route path="consortiums" element={<Consortiums />} />
+        {/* <Route path="consortiums" element={<Consortiums />} /> */}
+        <Route
+  path="consortiums"
+  element={<Navigate to="https://consortium-dashboard.vercel.app" replace />}
+/>
         <Route path="storefront" element={<Storefront />} />
         <Route path="messages" element={<Messages />} />
         <Route path="services" element={<Services />} />
