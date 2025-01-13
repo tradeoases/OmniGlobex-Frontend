@@ -88,7 +88,7 @@ const RoutesConfig = () => {
 
   // Placeholder components for different routes
   const Dashboard = () => <div>Dashboard Content</div>;
-  const Consortiums = () => <div>My Consortiums</div>;
+  // const Consortiums = () => <div>My Consortiums</div>;
   const Storefront = () => <div>Consortium Storefront</div>;
   const Messages = () => <div>Messages</div>;
   const Services = () => <div>Service & Products</div>;
