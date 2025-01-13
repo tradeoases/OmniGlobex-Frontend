@@ -1,0 +1,21 @@
+
+  {
+    "selectLanguage": "選擇語言",
+    "selectCurrency": "選擇貨幣",
+    "trackOrder": "追蹤訂單",
+    "account": "帳戶",
+    "support": "支援",
+    "navs": {
+      "Home": "首頁",
+      "About": "關於",
+      "Contact": "聯絡",
+      "Pages": "頁面",
+      "Blogs": "博客",
+      "Shop": "商店"
+    },
+    "viewCart": "查看購物車",
+    "notifications": "通知",
+    "signinSignup": "登入/註冊",
+    "logout": "登出"
+  }
+

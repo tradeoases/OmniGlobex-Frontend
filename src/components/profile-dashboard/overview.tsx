@@ -1,44 +1,98 @@
-import { FaShippingFast } from "react-icons/fa";
-import { FaCartArrowDown, FaUserGear } from "react-icons/fa6";
+// import { FaShippingFast } from "react-icons/fa";
+// import { FaCartArrowDown, FaUserGear } from "react-icons/fa6";
+import { useQuery } from "@tanstack/react-query";
+import { getUserInfo } from "@/service/apis/user-services";
 
 export const Overview = () => {
+  const {
+    data: personalInfo,
+    isLoading: personalInfoLoading,
+    isSuccess: isSuccessPersonal,
+    isError: personalInfoErrored,
+  } = useQuery({
+    queryKey: ["userProfile"],
+    queryFn: async () => {
+      const response = await getUserInfo();
+      if (response.status === 200) {
+        const finalUserData = response.data.data;
+        console.log({ finalUserData });
+        const personalInfo = [
+          { key: "Name", value: finalUserData?.fullname || "N/A" },
+          { key: "Email", value: finalUserData?.email || "N/A" },
+          { key: "Phone", value: finalUserData?.phonenumber || "N/A" },
+          { key: "City", value: finalUserData?.city || "N/A" },
+          { key: "Address", value: finalUserData?.address || "N/A" },
+        ];
+        return personalInfo;
+      }
+    },
+  });
+
   return (
-    <div className="col-span-3 space-y-6">
+    <div className="p-4 sm:p-6 md:p-8 lg:p-10">
       <div>
-        <p className="text-base">Hello, Shevo</p>
-        <p className="text-xl font-semibold">Welcome to your Profile</p>
+        <p className="text-lg md:text-xl lg:text-2xl font-semibold mb-4">
+          Welcome to your Profile
+        </p>
       </div>
 
-      <div className="grid mx-auto w-full grid-cols-3 gap-x-8">
-        {newOrderData.map((order, i) => (
+      {/* Orders Section */}
+      <div className="my-4">
+        {/* Uncomment and add your NewOrderBoard component here */}
+        {/* {newOrders.map((order, i) => (
           <NewOrderBoard key={i} {...order} />
-        ))}
+        ))} */}
       </div>
 
-      <div className="w-full bg-gray-50 grid grid-cols-2 gap-x-5 p-8">
-        <div className="space-y-12">
-          <p className="text-xl font-semibold">Personal Information</p>
+      {/* Main Info Section */}
+      <div className="flex flex-col md:flex-row gap-8 md:gap-16 lg:gap-24">
+        {/* Personal Information */}
+        <div className="space-y-4 md:space-y-8 w-full md:w-1/2">
+          <p className="text-lg md:text-xl lg:text-2xl font-semibold">
+            Personal Information
+          </p>
 
           <div className="space-y-4">
-            {personalInfo.map((info, i) => (
-              <div className="text-base grid grid-cols-4" key={i}>
-                <span className="text-gray-400 col-span-1">{info.key}:</span>
-                <span className="col-span-3">{info.value}</span>
+            {personalInfoLoading && (
+              <div className="text-gray-500">
+                Personal Information loading...
               </div>
-            ))}
+            )}
+            {personalInfoErrored && (
+              <div className="text-red-500">
+                Failed to load personal information
+              </div>
+            )}
+            {isSuccessPersonal &&
+              personalInfo?.map((info, i) => (
+                <div
+                  className="text-sm sm:text-base md:text-lg grid grid-cols-3 gap-2 md:grid-cols-4"
+                  key={i}
+                >
+                  <span className="text-gray-400 col-span-1">{info.key}:</span>
+                  <span className="col-span-2 md:col-span-3">{info.value}</span>
+                </div>
+              ))}
           </div>
         </div>
 
-        <div className="space-y-12">
-          <p className="text-xl font-semibold">Shop Info</p>
+        {/* Business Information */}
+        <div className="space-y-4 md:space-y-8 w-full md:w-1/2">
+          <p className="text-lg md:text-xl lg:text-2xl font-semibold">
+            Business Information
+          </p>
 
           <div className="space-y-4">
-            {personalInfo.map((info, i) => (
-              <div className="text-base grid grid-cols-4" key={i}>
-                <span className="text-gray-400 col-span-1">{info.key}:</span>
-                <span className="col-span-3">{info.value}</span>
-              </div>
-            ))}
+            {isSuccessPersonal &&
+              personalInfo?.map((info, i) => (
+                <div
+                  className="text-sm sm:text-base md:text-lg grid grid-cols-3 gap-2 md:grid-cols-4"
+                  key={i}
+                >
+                  <span className="text-gray-400 col-span-1">{info.key}:</span>
+                  <span className="col-span-2 md:col-span-3">{info.value}</span>
+                </div>
+              ))}
           </div>
         </div>
       </div>
@@ -47,34 +101,3 @@ export const Overview = () => {
 };
 
 export default Overview;
-
-interface INewOrder {
-  title: string;
-  count: number;
-  icon: JSX.Element;
-}
-const NewOrderBoard: React.FC<INewOrder> = ({ count, title, icon }) => {
-  return (
-    <div className="bg-black hover:bg-main hover:text-black w-64 h-60 hover:rounded text-white space-y-4 p-8 transition-colors duration-300 ease-in-out">
-      <div className="w-20 h-20 rounded text-main bg-white flex items-center justify-center text-4xl">
-        {icon}
-      </div>
-      <p className="text-xl">{title}</p>
-      <p className="text-5xl font-bold">{count}</p>
-    </div>
-  );
-};
-
-const newOrderData: INewOrder[] = [
-  { title: "New Order", count: 654, icon: <FaCartArrowDown /> },
-  { title: "New Order", count: 654, icon: <FaShippingFast /> },
-  { title: "New Order", count: 654, icon: <FaUserGear /> },
-];
-
-const personalInfo = [
-  { key: "Name", value: "Shuvo Khan" },
-  { key: "Email", value: "nabiwembo@gmail.com" },
-  { key: "Phone", value: "01239301920" },
-  { key: "City", value: "Kampala" },
-  { key: "Zip", value: "4040" },
-];

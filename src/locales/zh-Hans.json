@@ -1,0 +1,20 @@
+
+  {
+    "selectLanguage": "选择语言",
+    "selectCurrency": "选择货币",
+    "trackOrder": "追踪订单",
+    "account": "账户",
+    "support": "支持",
+    "navs": {
+      "Home": "首页",
+      "About": "关于",
+      "Contact": "联系",
+      "Pages": "页面",
+      "Blogs": "博客",
+      "Shop": "商店"
+    },
+    "viewCart": "查看购物车",
+    "notifications": "通知",
+    "signinSignup": "登录/注册",
+    "logout": "登出"
+  }

@@ -1,0 +1,21 @@
+
+  {
+    "selectLanguage": "Seleccionar idioma",
+    "selectCurrency": "Seleccionar moneda",
+    "trackOrder": "Rastrear pedido",
+    "account": "Cuenta",
+    "support": "Soporte",
+    "navs": {
+      "Home": "Inicio",
+      "About": "Acerca de",
+      "Contact": "Contacto",
+      "Pages": "Páginas",
+      "Blog": "Blog",
+      "Shop": "Tienda"
+    },
+    "viewCart": "Ver carrito",
+    "notifications": "Notificaciones",
+    "signinSignup": "Iniciar sesión/Registrarse",
+    "logout": "Cerrar sesión"
+  }
+
